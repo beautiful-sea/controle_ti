@@ -1,4 +1,4 @@
-{{ Form::restForm($ordem_servico, ['id' => 'ordem_servico-form','route_prefix'  =>  'ordem_servicos']) }}
+{{ Form::restForm($ordem_servico, ['id' => 'ordem_servico-form','route_prefix'  =>  'ordem_servicos','files' => true]) }}
 
 <div class="card">
     <div class="card-body">
@@ -8,7 +8,7 @@
             <div class="col-md-6" >
                 <div class="form-group">
                     <label>Equipamento</label>
-                    <select name="produto_id" class="form-control select-2">
+                    <select name="equipamento_id" class="form-control select-2">
                         @foreach(\App\Equipamento::all() as $e)
                         <option value="{{$e->id}}">{{$e->etiqueta}}</option>
                         @endforeach
@@ -19,7 +19,7 @@
             <div class="col-md-6" >
                 <div class="form-group">
                     <label>Setor</label>
-                    <select name="produto_id" class="form-control select-2">
+                    <select name="setor_id" class="form-control select-2">
                         @foreach(\App\Setor::all() as $s)
                         <option value="{{$s->id}}">{{$s->name}}</option>
                         @endforeach
@@ -41,7 +41,7 @@
             <div class="col-md-6" >
                 <div class="form-group">
                     <label>Solicitação</label>
-                    <select name="produto_id" class="form-control select-2">
+                    <select name="cadastrante_id" class="form-control select-2">
                         @foreach(\App\User::all() as $u)
                         <option value="{{$u->id}}">{{$u->name}}</option>
                         @endforeach
@@ -52,7 +52,7 @@
             <div class="col-md-6" >
                 <div class="form-group">
                     <label>Usuário</label>
-                    <select name="produto_id" class="form-control select-2">
+                    <select name="usuario_id" class="form-control select-2">
                         @foreach(\App\User::all() as $u)
                         <option value="{{$u->id}}">{{$u->name}}</option>
                         @endforeach

@@ -18,6 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/ordem_servicos/{id}/change_status/{status}', 'OrdemServicosController@changeStatus')->name('ordem_servicos.change_status');
 
 Route::resource('equipamentos', 'EquipamentosController');
 Route::resource('licencas', 'LicencasController');

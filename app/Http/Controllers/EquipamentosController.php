@@ -47,6 +47,7 @@ class EquipamentosController extends Controller
     {
         $equipamento = new Equipamento;
 
+        $request['etiqueta'] = strtoupper($request->etiqueta);
         $equipamento->fill($request->all());
 
         $equipamento->save();

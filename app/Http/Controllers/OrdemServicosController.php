@@ -45,13 +45,27 @@ class OrdemServicosController extends Controller
      */
     public function store(Request $request)
     {
+        $dados = $request->all();
+
+        $dados['status'] = 0;
+
         $ordem_servico = new OrdemServico;
 
-        $ordem_servico->fill($request->all());
+        $ordem_servico->fill($dados);
+
+        if ($request->hasFile('arquivo')) {
+            $extension = $request->file('arquivo')->getClientOriginalExtension();
+            $ordem_servico->img_extension = $extension;
+        }
 
         $ordem_servico->save();
 
-        return redirect()->route('ordem_servicos.index')->with('flash.success', 'OrdemServico salvo com sucesso');
+
+        if ($request->hasFile('arquivo')) {
+            $request->file('arquivo')->move(base_path('/public/files/ordem_servico'), sprintf('%s.%s', $ordem_servico->id, $extension));
+        }
+
+        return redirect()->route('ordem_servicos.index')->with('flash.success', 'Ordem de Serviço salva com sucesso');
     }
 
     /**
@@ -89,9 +103,31 @@ class OrdemServicosController extends Controller
     {
         $ordem_servico->fill($request->all());
 
+        if ($request->hasFile('arquivo')) {
+            $extension = $request->file('arquivo')->getClientOriginalExtension();
+            $ordem_servico->img_extension = $extension;
+        }
+
         $ordem_servico->save();
 
-        return redirect()->route('ordem_servicos.index')->with('flash.success', 'OrdemServico salvo com sucesso');
+        if ($request->hasFile('arquivo')) {
+            $extension = $request->file('arquivo')->getClientOriginalExtension();
+
+            $request->file('arquivo')->move(base_path('/public/files/ordem_servico'), sprintf('%s.%s', $ordem_servico->id, $extension));
+        }
+
+        return redirect()->route('ordem_servicos.index')->with('flash.success', 'Ordem de Serviço salva com sucesso');
+    }
+
+    public function changeStatus(Request $request, OrdemServico $ordem_servico,$id,$status)
+    {
+        $ordem_servico = OrdemServico::find($id);
+
+        $ordem_servico->status = $status;
+
+        $ordem_servico->save();
+
+        return redirect()->route('ordem_servicos.index')->with('flash.success', 'Ordem de Serviço atualizada com sucesso');
     }
 
     /**
@@ -104,7 +140,9 @@ class OrdemServicosController extends Controller
     {
         $ordem_servico->delete();
 
-        return redirect()->route('ordem_servicos.index')->with('flash.success', 'OrdemServico deletado com sucesso');
+        return redirect()->route('ordem_servicos.index')->with('flash.success', 'Ordem de Serviço deletada com sucesso');
 
     }
+
+
 }

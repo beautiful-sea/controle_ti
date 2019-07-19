@@ -20,7 +20,8 @@ class CreateOrdemServicosTable extends Migration
             $table->unsignedBigInteger('cadastrante_id')->nullable();
             $table->unsignedBigInteger('setor_id');
             $table->text('descricao');
-            $table->dateTime('resolucao');
+            $table->text('img_extension');
+            $table->dateTime('resolucao')->nullable();
             $table->integer('status');
             $table->timestamps();
 

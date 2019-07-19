@@ -19,7 +19,14 @@
             <table class="table table-hover" id="ordem_servicos-list">
                 <thead>
                     <tr>
-                        <th>Nome</th>
+                        <th>Equipamento</th>
+                        <th>Solicitação</th>
+                        <th>Usuário</th>
+                        <th>Setor</th>
+                        <th>Descrição</th>
+                        <th>Resolução</th>
+                        <th>Status</th>
+                        <th>Imagem</th>
                         <th data-orderable="false"></th>
                     </tr>
                 </thead>
@@ -34,23 +41,73 @@
                 @endphp
 
                 <tr class="{{ $class }}">
+                    <td>{{ \App\Equipamento::find($u->equipamento_id)->etiqueta }}</td>
+                    <td>{{ \App\User::find($u->cadastrante_id)->name }}</td>
+                    <td>{{ \App\User::find($u->usuario_id)->name }}</td>
+                    <td>{{ \App\Setor::find($u->setor_id)->name }}</td>
+                    <td>{{ Illuminate\Support\Str::limit($u->descricao,50) }}</td>
                     <td>{{ $u->nome }}</td>
+                    <td>{!! html_entity_decode(\App\OrdemServico::getStatusFormated($u->status)) !!}</td>
+                    <td><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" onclick="setImageModal({!!$u->id!!} , '{!!$u->img_extension!!}')">Ver</button></td>
                     <td>
-                        <div class="table-actions">
+                        <div class="table-actions row">
                             @can('edit', $u)
-                            <a href="{{ route('ordem_servicos.edit', ['ordem_servico' => $u]) }}" class="btn btn-default btn-sm"><i class="fa fa-pencil-alt"></i> Editar</a>
-                            @endcan
+                            <div class="btn-group" style="margin-right: 5px">
+                              <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-sync-alt"></i>
+                                Atualizar
+                            </button>
+                            <div class="dropdown-menu" style="z-index: 10">
+                                @php
+                                $u->status = 0 
+                                @endphp
+                                <a href="{{ route('ordem_servicos.change_status', ['ordem_servicos' => $u,'status'  =>  0]) }}" class="dropdown-item"> {!! html_entity_decode(\App\OrdemServico::getStatusInText(0)) !!}</a>
+                                @php
+                                $u->status = 1 
+                                @endphp
+                                <a href="{{ route('ordem_servicos.change_status', ['ordem_servicos' => $u,'status'  =>  1]) }}" class="dropdown-item">{!! html_entity_decode(\App\OrdemServico::getStatusInText(1)) !!}</a>
+                                @php
+                                $u->status = 2 
+                                @endphp
+                                <a href="{{ route('ordem_servicos.change_status', ['ordem_servicos' => $u,'status'  =>  2]) }}" class="dropdown-item"> {!! html_entity_decode(\App\OrdemServico::getStatusInText(2)) !!}</a>
+                                @php
+                                $u->status = 3 
+                                @endphp
+                                <a href="{{ route('ordem_servicos.change_status', ['ordem_servicos' => $u,'status'  =>  3]) }}" class="dropdown-item">{!! html_entity_decode(\App\OrdemServico::getStatusInText(3)) !!}</a>
 
-                            @can('destroy', $u)
-                            {{ Html::deleteLink('Excluir', route('ordem_servicos.destroy', ['user' => $u]), ['button_class' => 'btn btn-danger btn-sm confirmable', 'icon' => 'trash']) }}
-                            @endcan
+                                @php
+                                $u->status = 4 
+                                @endphp
+                                <a href="{{ route('ordem_servicos.change_status', ['ordem_servicos' => $u,'status'  =>  4]) }}" class="dropdown-item">{!! html_entity_decode(\App\OrdemServico::getStatusInText(4)) !!}</a>
+                            </div>
                         </div>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+
+                        @endcan
+                        @can('edit', $u)
+                        <a href="{{ route('ordem_servicos.edit', ['ordem_servico' => $u]) }}" class="btn btn-default btn-sm"><i class="fa fa-pencil-alt"></i> Editar</a>
+                        @endcan
+
+                        @can('destroy', $u)
+                        {{ Html::deleteLink('Excluir', route('ordem_servicos.destroy', ['user' => $u]), ['button_class' => 'btn btn-danger btn-sm confirmable', 'icon' => 'trash']) }}
+                        @endcan
+                    </div>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+    <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img style="width: 100%" src="public/files/ordem_servico/1.jpg" id="img_modal" class="img-responsive">
+            </div>
+        </div>
     </div>
+</div>
+
+</div>
 </div>
 </div>
 @stop
@@ -58,5 +115,9 @@
 @section('js')
 <script>
     $('#ordem_servicos-list').DataTable();
+
+    function setImageModal(id,extension){
+        $('#img_modal').attr("src", "/files/ordem_servico/"+id+"."+extension);;
+    }
 </script>
 @stop
