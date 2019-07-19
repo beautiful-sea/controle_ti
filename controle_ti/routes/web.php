@@ -25,5 +25,6 @@ Route::resource('produtos', 'ProdutosController');
 Route::resource('setores', 'SetoresController');
 Route::resource('ramais_valenca', 'RamaisValencaController');
 Route::resource('ramais_rj', 'RamaisRJController');
+Route::resource('ordem_servicos', 'OrdemServicosController');
 
 \BeautifulSea\LaravelRamodnil\LaravelRamodnilServiceProvider::routes();

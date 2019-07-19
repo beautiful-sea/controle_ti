@@ -24,6 +24,42 @@ $class = 'active';
     </a>
 </li>
 
+<!-- MENU SUPORTE -->
+
+@php
+$class = '';
+
+if ($controller == 'RamaisValencaController' || $controller == 'RamaisRJController') {
+$class = 'active show';
+}
+@endphp
+<li class="nav-item {{ $class }} ">
+    <a data-toggle="collapse" href="#suporte">
+        <i class="nav-icon fa fa-phone-square-alt"></i>
+        <p>Suporte</p>
+        <span class="caret"></span>
+    </a>
+    <div class="{{ $class }} collapse " id="suporte">
+        <ul class="nav nav-collapse">
+   
+         @php
+         $class = '';
+
+         if ($controller == 'OrdemServicosController')
+         {
+             $class = 'active';
+         }
+         @endphp
+         <li class="{{ $class }}">
+            <a href="{{ route('ordem_servicos.index') }}">
+                <p class="sub-item">Ordem de Serviço</p>
+            </a>
+        </li>
+
+    </ul>
+</div>
+</li>
+
 @can('index',\App\User::class)
 
 <!-- MENU EQUIPAMENTOS -->
@@ -107,12 +143,12 @@ $class = 'active show';
 }
 @endphp
 <li class="nav-item {{ $class }} ">
-    <a data-toggle="collapse" href="#submenu">
+    <a data-toggle="collapse" href="#ramais">
         <i class="nav-icon fa fa-phone-alt"></i>
         <p>Ramais</p>
         <span class="caret"></span>
     </a>
-    <div class="{{ $class }} collapse " id="submenu">
+    <div class="{{ $class }} collapse " id="ramais">
         <ul class="nav nav-collapse">
 
          @can('index', \App\User::class)    
@@ -149,6 +185,7 @@ $class = 'active show';
 </div>
 </li>
 
+
 <!-- MENU CONFIGURAÇÕES -->
 
 @php
@@ -159,12 +196,12 @@ $class = 'active show';
 }
 @endphp
 <li class="nav-item {{ $class }} ">
-    <a data-toggle="collapse" href="#submenu">
+    <a data-toggle="collapse" href="#configuracoes">
         <i class="nav-icon fa fa-cog"></i>
         <p>Configurações</p>
         <span class="caret"></span>
     </a>
-    <div class="{{ $class }} collapse collapsed " id="submenu">
+    <div class="{{ $class }} collapse collapsed " id="configuracoes">
         <ul class="nav nav-collapse">
 
          @can('index', \App\User::class)    
