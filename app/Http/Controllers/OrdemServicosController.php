@@ -19,7 +19,7 @@ class OrdemServicosController extends Controller
      */
     public function index()
     {
-        $ordem_servicos = OrdemServico::all();
+        $ordem_servicos = (auth()->user()->role == 0)?OrdemServico::all():auth()->user()->ordemServicos()->get();
         return view('ordem_servicos.index',[
             'ordem_servicos'  =>  $ordem_servicos
         ]);
@@ -46,6 +46,8 @@ class OrdemServicosController extends Controller
     public function store(Request $request)
     {
         $dados = $request->all();
+
+        $dados['cadastrante_id'] = auth()->user()->id;
 
         $dados['status'] = 0;
 
@@ -101,7 +103,10 @@ class OrdemServicosController extends Controller
      */
     public function update(Request $request, OrdemServico $ordem_servico)
     {
+        $request['cadastrante_id'] = auth()->user()->id;
+
         $ordem_servico->fill($request->all());
+
 
         if ($request->hasFile('arquivo')) {
             $extension = $request->file('arquivo')->getClientOriginalExtension();
@@ -124,6 +129,10 @@ class OrdemServicosController extends Controller
         $ordem_servico = OrdemServico::find($id);
 
         $ordem_servico->status = $status;
+
+        if($ordem_servico->status == 3){
+            $ordem_servico['resolucao'] = date('Y-m-d H:i:s');
+        }
 
         $ordem_servico->save();
 

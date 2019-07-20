@@ -23,6 +23,8 @@ class User extends Authenticatable
         'name', 'usuario', 'password', 'role','equipamento_id','setor_id'
     ];
 
+    protected $with = ['equipamento','setor'];
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -60,5 +62,17 @@ class User extends Authenticatable
 
     public function getRoleStringAttribute() {
         return self::roles()[$this->role];
+    }
+
+    public function ordemServicos(){
+        return $this->hasMany('App\OrdemServico','cadastrante_id');
+    }
+
+    public function equipamento(){
+        return $this->hasOne('App\Equipamento','id','equipamento_id');
+    }
+
+    public function setor(){
+        return $this->hasOne('App\Setor','id','setor_id');
     }
 }

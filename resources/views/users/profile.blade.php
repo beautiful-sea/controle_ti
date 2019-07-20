@@ -14,9 +14,9 @@
 
     <div class="card">
         <div class="card-body">
-            {{ Form::bsText('name', 'Nome') }}
+            {{ Form::bsText('name', 'Nome',['disabled'=>(auth()->user()->role == 0)?'false':'true']) }}
 
-            {{ Form::bsText('usuario', 'Usuário') }}
+            {{ Form::bsText('usuario', 'Usuário',['disabled'=>(auth()->user()->role == 0)?'false':'true']) }}
 
             <div class="row">
                 <div class="col-md-6">

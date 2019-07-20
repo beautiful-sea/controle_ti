@@ -8,9 +8,9 @@
 
 @section('content')
 <div class="my-2">
-    @can('create', \App\User::class)
+
     <a href="{{ route('ordem_servicos.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Nova Ordem de Serviço</a>
-    @endcan
+    
 </div>
 
 <div class="card">
@@ -46,9 +46,9 @@
                     <td>{{ \App\User::find($u->usuario_id)->name }}</td>
                     <td>{{ \App\Setor::find($u->setor_id)->name }}</td>
                     <td>{{ Illuminate\Support\Str::limit($u->descricao,50) }}</td>
-                    <td>{{ $u->nome }}</td>
+                    <td>{{ ($u->resolucao)?date("d/m/Y H:m:i",strtotime($u->resolucao)):''}}</td>
                     <td>{!! html_entity_decode(\App\OrdemServico::getStatusFormated($u->status)) !!}</td>
-                    <td><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" onclick="setImageModal({!!$u->id!!} , '{!!$u->img_extension!!}')">Ver</button></td>
+                    <td>@if($u->img_extension)<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" onclick="setImageModal({!!$u->id!!} , '{!!$u->img_extension!!}')">Ver</button>@endif</td>
                     <td>
                         <div class="table-actions row">
                             @can('edit', $u)
@@ -83,9 +83,7 @@
                         </div>
 
                         @endcan
-                        @can('edit', $u)
                         <a href="{{ route('ordem_servicos.edit', ['ordem_servico' => $u]) }}" class="btn btn-default btn-sm"><i class="fa fa-pencil-alt"></i> Editar</a>
-                        @endcan
 
                         @can('destroy', $u)
                         {{ Html::deleteLink('Excluir', route('ordem_servicos.destroy', ['user' => $u]), ['button_class' => 'btn btn-danger btn-sm confirmable', 'icon' => 'trash']) }}

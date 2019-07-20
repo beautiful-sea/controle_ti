@@ -46,6 +46,8 @@ class SetoresController extends Controller
     {
         $setor = new Setor;
 
+        $request['name'] = strtoupper($request->name);
+
         $setor->fill($request->all());
 
         $setor->save();
