@@ -26,6 +26,7 @@
                     <tr>
                         <th>Chave</th>
                         <th>Produto</th>
+                        <th>Computador</th>
                         <th data-orderable="false"></th>
                     </tr>
                 </thead>
@@ -40,8 +41,9 @@
                 @endphp
 
                 <tr class="{{ $class }}">
-                    <td>{{ $u->chave }}</td>
-                    <td>{{ App\Produto::find($u->produto_id)->nome }}</td>
+                    <td>{!! $u->chave !!}</td>
+                    <td>{!! '<div class="badge badge-secondary">'.App\Produto::find($u->produto_id)->nome.'</div>' !!}</td>
+                    <td>{!! ($u->equipamento_id)?('<div class="badge badge-primary">'.App\Equipamento::find($u->equipamento_id)->etiqueta.'</div>'):'<div class="badge badge-danger">Nenhum</div>'!!}</td>
                     <td>
                         <div class="table-actions">
                             @can('add', $u)
@@ -62,10 +64,8 @@
             </tbody>
         </table>
     </div>
-</div>
-</div>
-@stop
-<!-- Modal -->
+
+    <!-- Modal -->
 {{ Form::restForm($u, ['id' => 'licenca-form']) }}
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -86,7 +86,8 @@
         
         <div class="form-group">
             <label>Equipamento</label>
-            <select name="produto_id" class="form-control select-2">
+            <select name="equipamento_id" class="form-control select-2">
+                <option value=""></option>
             @foreach(App\Equipamento::all() as $p)
                 <option value="{{$p->id}}">{{$p->etiqueta}}</option>
             @endforeach
@@ -102,6 +103,10 @@
   </div>
 </div>
 {{ Form::close() }}
+</div>
+</div>
+@stop
+
 @section('js')
 <script>
     $('#licencas-list').DataTable();

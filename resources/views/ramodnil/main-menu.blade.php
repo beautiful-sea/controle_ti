@@ -62,6 +62,7 @@ $class = 'active show';
 </li>
 
 <!-- MENU CONTROLE -->
+            @can('index',\App\User::class)
 
 @php
 $class = '';
@@ -79,7 +80,6 @@ $class = 'active show';
     <div class="{{ $class }} collapse " id="controle">
         <ul class="nav nav-collapse">
 
-            @can('index',\App\User::class)
 
             <!-- MENU EQUIPAMENTOS -->
 

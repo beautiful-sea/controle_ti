@@ -6,7 +6,7 @@
 
 @section('body')
 <div class="wrapper">
-    <div class="main-header" data-background-color="blue">
+    <div class="main-header" data-background-color="blue" style="background-color: #449284!important">
         <!-- Logo Header -->
         <div class="logo-header">
             @if(auth()->user()->role == 0)
@@ -29,7 +29,7 @@
         <!-- End Logo Header -->
 
         <!-- Navbar Header -->
-        <nav class="navbar navbar-header navbar-expand-lg">
+        <nav class="navbar navbar-header navbar-expand-lg" style="background-color: #449284!important"> 
 
             <div class="container-fluid">
                 <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
@@ -80,7 +80,7 @@
                                     <div class="avatar-lg">{!!Auth::user()->avatar!!}</div>
                                     <div class="u-text">
                                         <h4>{{Auth::user()->name}}</h4>
-                                        <p class="text-muted">{{Auth::user()->email}}</p>
+                                        <p class="text-muted">{{Auth::user()->usuario}}</p>
                                         <!-- <a href="profile.html" class="btn btn-rounded btn-danger btn-sm">Ver Perfil</a> -->
                                     </div>
                                 </div>

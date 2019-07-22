@@ -171,7 +171,7 @@
 	</div>
 
 	@if(count(auth()->user()->notifications) > 0)
-	<h3>Notificações</h3>
+	<h3>Atividades recentes</h3>
 	@endif
 	<div class="row">
 		<div class="col-md-12">

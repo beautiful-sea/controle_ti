@@ -1,14 +1,14 @@
 @extends('ramodnil.raw')
 
 @section('content')
-<div class="login">
+<div class="login" style="background-image: url('http://brval.com.br/wp-content/uploads/2018/04/Foto-BR6-Site.jpg')">
     <div class="wrapper wrapper-login">
 
         <div class="container container-login animated fadeIn">
             <div class="login-form">
                 @if (\App\User::first())
                 {{ Form::open(['url' => route('login')]) }}
-                <h3 class="text-center">Painel de Controle TI</h3>
+                <h3 class="text-center">Sistema de OS</h3>
                 <div class="input-group mb-3">
                     <input type="text" name="usuario" class="form-control" placeholder="Usuário">
 

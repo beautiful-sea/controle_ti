@@ -20,10 +20,8 @@
                 <thead>
                     <tr>
                         <th>Equipamento</th>
-                        <th>Solicitação</th>
                         <th>Usuário</th>
                         <th>Setor</th>
-                        <th>Descrição</th>
                         <th>Resolução</th>
                         <th>Status</th>
                         <th>Imagem</th>
@@ -42,10 +40,8 @@
 
                 <tr class="{{ $class }}">
                     <td>{{ \App\Equipamento::find($u->equipamento_id)->etiqueta }}</td>
-                    <td>{{ \App\User::find($u->cadastrante_id)->name }}</td>
                     <td>{{ \App\User::find($u->usuario_id)->name }}</td>
                     <td>{{ \App\Setor::find($u->setor_id)->name }}</td>
-                    <td>{{ Illuminate\Support\Str::limit($u->descricao,50) }}</td>
                     <td>{{ ($u->resolucao)?date("d/m/Y H:m:i",strtotime($u->resolucao)):''}}</td>
                     <td>{!! html_entity_decode(\App\OrdemServico::getStatusFormated($u->status)) !!}</td>
                     <td>@if($u->img_extension)<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" onclick="setImageModal({!!$u->id!!} , '{!!$u->img_extension!!}')">Ver</button>@endif</td>

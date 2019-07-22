@@ -96,7 +96,7 @@ $disabled = ($ordem_servico->status != 0 && auth()->user()->role == 1)? "disable
              {{ Form::bsFile('arquivo', 'Arquivo',[($ordem_servico->status != 0 && auth()->user()->role == 1)? 'disabled':"enabled" => true]) }}
          </div>
      </div>
-     <td>{!! html_entity_decode(\App\OrdemServico::getStatusFormated($ordem_servico->status)) !!}</td>
+     <td>{!! \App\OrdemServico::getStatusFormated($ordem_servico->status).'<div class="badge badge-success">'.$ordem_servico->resolucao.'</div>' !!}</td>
 
 
  </div>
