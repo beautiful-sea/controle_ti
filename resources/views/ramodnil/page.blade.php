@@ -68,7 +68,7 @@
                                 <div class="dropdown-title">Você não tem novas notificações</div>
                                 @endif
                             </li>
-                            @foreach(auth()->user()->unreadNotifications as $notification)
+                            @foreach(auth()->user()->unreadNotifications->take(8) as $notification)
                             <li>
                                 <div class="notif-scroll scrollbar-outer">
                                     <div class="notif-center">

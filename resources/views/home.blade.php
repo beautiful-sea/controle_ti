@@ -99,8 +99,8 @@
 
 <div class="container">
 
-<h3>Suas Informaçoes</h3>
-	
+	<h3>Suas Informaçoes</h3>
+
 	<div class="row">
 
 		@if(isset(auth()->user()->equipamento->etiqueta))
@@ -160,7 +160,7 @@
 						<div class="col col-stats">
 							<div class="numbers">
 								<p class="card-category">Ordens de Serviço</p>
-								<h4 class="card-title">{{count(auth()->user()->ordemServicos())}}</h4>
+								<h4 class="card-title">{!! count(auth()->user()->ordemServicos()) !!}</h4>
 							</div>
 						</div>
 					</div>
@@ -169,7 +169,30 @@
 		</div>
 
 	</div>
+
+	<h3>Notificações</h3>
+
+	<div class="row">
+		<div class="col-md-12">
+
+
+			<ul class="timeline">
+				@php
+				$i = 0;
+				@endphp
+				@foreach(auth()->user()->notifications->take(8) as $n)
+				@php $i++; @endphp
+
+				<li class="{{($i%2 == 0)?'timeline-inverted':''}}">
+					@include('layouts.partials.notification.timeline.'.snake_case(class_basename($n->type)))
+				</li>
+				@endforeach
+			</ul>
+		</div>
+	</div>
+
 </div>
+
 
 @stop
 

@@ -14,13 +14,13 @@
 
     <div class="card">
         <div class="card-body">
-            {{ Form::bsText('name', 'Nome',['disabled'=>(auth()->user()->role == 0)?'false':'true']) }}
+            {{ Form::bsText('name', 'Nome',[(auth()->user()->role == 0)?'false':'disabled'=>true]) }}
 
-            {{ Form::bsText('usuario', 'Usuário',['disabled'=>(auth()->user()->role == 0)?'false':'true']) }}
+            {{ Form::bsText('usuario', 'Usuário',[(auth()->user()->role == 0)?'false':'disabled'=>true]) }}
 
             <div class="row">
                 <div class="col-md-6">
-                    {{ Form::bsFile('imagem', 'Avatar', ['default' => ($user->avatar_extension) ? sprintf('/files/users/%s.%s', $user->id, $user->avatar_extension) : null]) }}
+                    {{ Form::bsFile('imagem', 'Foto', ['default' => ($user->avatar_extension) ? sprintf('/files/users/%s.%s', $user->id, $user->avatar_extension) : null]) }}
                 </div>
             </div>
         </div>

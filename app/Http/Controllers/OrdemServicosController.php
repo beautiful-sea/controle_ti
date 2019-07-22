@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\OrdemServico;
+use App\User;
 use Illuminate\Http\Request;
+use App\Notifications\CreatedOrdemServico;
+use App\Notifications\ChangedStatusOrdemServico;
 
 class OrdemServicosController extends Controller
 {
@@ -20,6 +23,7 @@ class OrdemServicosController extends Controller
     public function index()
     {
         $ordem_servicos = (auth()->user()->role == 0)?OrdemServico::all():auth()->user()->ordemServicos()->get();
+
         return view('ordem_servicos.index',[
             'ordem_servicos'  =>  $ordem_servicos
         ]);
@@ -65,6 +69,13 @@ class OrdemServicosController extends Controller
 
         if ($request->hasFile('arquivo')) {
             $request->file('arquivo')->move(base_path('/public/files/ordem_servico'), sprintf('%s.%s', $ordem_servico->id, $extension));
+        }
+
+        /*Notificaçao*/
+        $allAdmins = User::all()->where('role',0);
+
+        foreach ($allAdmins as $user) {
+            $user->notify(new CreatedOrdemServico($ordem_servico));
         }
 
         return redirect()->route('ordem_servicos.index')->with('flash.success', 'Ordem de Serviço salva com sucesso');
@@ -133,6 +144,11 @@ class OrdemServicosController extends Controller
         if($ordem_servico->status == 3){
             $ordem_servico['resolucao'] = date('Y-m-d H:i:s');
         }
+
+        /*Notificaçao*/
+        $user = User::find($ordem_servico->cadastrante_id);
+
+        $user->notify(new ChangedStatusOrdemServico($ordem_servico->id,$ordem_servico->status));
 
         $ordem_servico->save();
 

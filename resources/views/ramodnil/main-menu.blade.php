@@ -29,7 +29,7 @@ $class = 'active';
 @php
 $class = '';
 
-if ($controller == 'RamaisValencaController' || $controller == 'RamaisRJController') {
+if ($controller == 'OrdemServicosController') {
 $class = 'active show';
 }
 @endphp

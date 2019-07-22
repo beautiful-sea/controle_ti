@@ -65,7 +65,7 @@ class User extends Authenticatable
     }
 
     public function ordemServicos(){
-        return $this->hasMany('App\OrdemServico','cadastrante_id');
+        return $this->hasMany('App\OrdemServico','cadastrante_id','id');
     }
 
     public function equipamento(){
