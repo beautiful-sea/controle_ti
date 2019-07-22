@@ -160,7 +160,7 @@
 						<div class="col col-stats">
 							<div class="numbers">
 								<p class="card-category">Ordens de Serviço</p>
-								<h4 class="card-title">{!! count(auth()->user()->ordemServicos()) !!}</h4>
+								<h4 class="card-title">{!! count(App\OrdemServico::where('cadastrante_id',auth()->user()->id)->get()) !!}</h4>
 							</div>
 						</div>
 					</div>
@@ -170,8 +170,9 @@
 
 	</div>
 
+	@if(count(auth()->user()->notifications) > 0)
 	<h3>Notificações</h3>
-
+	@endif
 	<div class="row">
 		<div class="col-md-12">
 

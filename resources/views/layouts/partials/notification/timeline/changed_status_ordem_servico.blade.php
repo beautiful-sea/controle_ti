@@ -1,5 +1,5 @@
 
-<div class="timeline-badge"><i class="fa fa-sync"></i></div>
+<div class="timeline-badge"><a style="color: inherit;" href="{{route('ordem_servicos.edit',App\OrdemServico::find($n->data['ordemServico']))}}"><i class="fa fa-sync"></i></a></div>
 <div class="timeline-panel">
 	<div class="timeline-heading">
 		<h4 class="timeline-title">{{$n->data['changedBy']['name']}}</h4>

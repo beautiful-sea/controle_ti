@@ -66,8 +66,8 @@ class UsersController extends Controller
 
         $allAdmins = User::all()->where('role',0);
 
-        foreach ($allAdmins as $user) {
-            $user->notify(new CreatedUser($user,auth()->user()));
+        foreach ($allAdmins as $u) {
+            $u->notify(new CreatedUser($user,auth()->user()));
         }
 
 

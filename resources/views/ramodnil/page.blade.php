@@ -9,8 +9,11 @@
     <div class="main-header" data-background-color="blue">
         <!-- Logo Header -->
         <div class="logo-header">
-
-            <span class="page-title logo" style="padding-top: 20px!important; color: white"><b>Painel</b> Admin</span>
+            @if(auth()->user()->role == 0)
+            <span class="page-title logo" style="padding-top: 20px!important; color: white"><b>Painel</b> TI</span>
+            @else
+            <span class="page-title logo" style="padding-top: 20px!important; color: white"><b>Suporte</b> TI</span>
+            @endif
             <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon">
                     <i class="fa fa-bars"></i>
@@ -29,24 +32,7 @@
         <nav class="navbar navbar-header navbar-expand-lg">
 
             <div class="container-fluid">
-                <div class="collapse" id="search-nav">
-                    <form class="navbar-left navbar-form nav-search mr-md-3">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <button type="submit" class="btn btn-search pr-1">
-                                    <i class="fa fa-search search-icon"></i>
-                                </button>
-                            </div>
-                            <input type="text" placeholder="Buscar ..." class="form-control">
-                        </div>
-                    </form>
-                </div>
                 <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
-                    <li class="nav-item toggle-nav-search hidden-caret">
-                        <a class="nav-link" data-toggle="collapse" href="#search-nav" role="button" aria-expanded="false" aria-controls="search-nav">
-                            <i class="fa fa-search"></i>
-                        </a>
-                    </li>
                     @php
 
                     $countNotifications = count(auth()->user()->unreadNotifications);
@@ -77,9 +63,9 @@
                                 </div>
                             </li>
                             @endforeach
-                            <li>
+                           <!--  <li>
                                 <a class="see-all" href="javascript:void(0);">Ver todas notificações<i class="fa fa-angle-right"></i> </a>
-                            </li>
+                            </li> -->
                         </ul>
                     </li>
                     <li class="nav-item dropdown hidden-caret">

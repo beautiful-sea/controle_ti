@@ -47,8 +47,6 @@
                         Usuário ou senha inválidos
                     </div>
                     @endif
-
-                    <p><a href="#">Esqueci minha senha</a></p>
                 </p>
                 @else
                 <h6 class="text-center">Nenhum usuário encontrado. Por favor, cadastre o primeiro usuário.</h6>

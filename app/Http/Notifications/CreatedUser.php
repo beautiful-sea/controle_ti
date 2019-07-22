@@ -62,7 +62,7 @@ class CreatedUser extends Notification
     {
         return [
             'userCreated'   =>$this->user,
-            'createdBy'     =>$this->created_by,
+            'createdBy'     =>auth()->user(),
         ];
     }
 

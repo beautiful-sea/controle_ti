@@ -8,6 +8,7 @@ class OrdemServico extends Model
 {
     protected $fillable = ['equipamento_id','usuario_id','cadastrante_id','setor_id','descricao','resolucao','status'];
 
+    protected $table = 'ordem_servicos';
 
     public static function getStatusInText($status){
 
@@ -55,5 +56,9 @@ class OrdemServico extends Model
     			return '<div class="badge badge-success">Solicitada</div>';
     			break;
     	}
+    }
+
+    public function user(){
+        return $this->belongsTo('App\User','cadastrante_id','id');
     }
 }
