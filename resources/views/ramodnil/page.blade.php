@@ -10,9 +10,9 @@
         <!-- Logo Header -->
         <div class="logo-header">
             @if(auth()->user()->role == 0)
-            <span class="page-title logo" style="padding-top: 20px!important; color: white"><b>Painel</b> TI</span>
+            <span class="page-title logo" style="padding-top: 20px!important; color: white"><b>Portal</b> BRVAL</span>
             @else
-            <span class="page-title logo" style="padding-top: 20px!important; color: white"><b>Suporte</b> TI</span>
+            <span class="page-title logo" style="padding-top: 20px!important; color: white"><b>Portal</b> BRVAL</span>
             @endif
             <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon">

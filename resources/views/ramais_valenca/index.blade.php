@@ -28,8 +28,8 @@
                     @foreach($ramais as $u)
 
                     <tr class="">
-                        <td>{{ $u->ramal }}</td>
-                        <td>{{ App\Setor::find($u->setor_id)->name }}</td>
+                        <td>{!! '<div class="badge badge-primary">'.$u->ramal.'</div>'  !!}</td>
+                        <td>{!! '<div class="badge badge-primary">'.App\Setor::find($u->setor_id)->name.'</div>'  !!}</td>
                         <td>
                             <div class="table-actions">
                                 @can('edit', $u)

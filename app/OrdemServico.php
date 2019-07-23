@@ -10,6 +10,8 @@ class OrdemServico extends Model
 
     protected $table = 'ordem_servicos';
 
+    protected $with =['equipamento','cadastrante','setor','usuario'];
+
     public static function getStatusInText($status){
 
     	switch ($status) {
@@ -58,7 +60,19 @@ class OrdemServico extends Model
     	}
     }
 
-    public function user(){
+    public function cadastrante(){
         return $this->belongsTo('App\User','cadastrante_id','id');
+    }
+
+    public function usuario(){
+        return $this->belongsTo('App\User','usuario_id','id');
+    }
+
+    public function equipamento(){
+        return $this->hasOne('App\Equipamento','id','equipamento_id');
+    }
+
+    public function setor(){
+        return $this->hasOne('App\Setor','id','setor_id');
     }
 }

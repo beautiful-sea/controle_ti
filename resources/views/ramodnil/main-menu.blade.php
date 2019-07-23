@@ -24,6 +24,24 @@ $class = 'active';
     </a>
 </li>
 
+@can('avisar',\App\User::class)
+<!-- MENU AVISOS -->
+
+@php
+$class = '';
+
+if ($controller == 'AvisosController') {
+$class = 'active';
+}
+@endphp
+
+<li class="nav-item {{ $class }}">
+    <a href="{{ route('avisos.index') }}" class="nav-link ">
+        <i class="fas fa-exclamation"></i>
+        <p>Avisos</p>
+    </a>
+</li>
+@endcan
 <!-- MENU SUPORTE -->
 
 @php
@@ -42,15 +60,15 @@ $class = 'active show';
     <div class="{{ $class }} collapse " id="suporte">
         <ul class="nav nav-collapse">
 
-           @php
-           $class = '';
+         @php
+         $class = '';
 
-           if ($controller == 'OrdemServicosController')
-           {
-               $class = 'active';
-           }
-           @endphp
-           <li class="{{ $class }}">
+         if ($controller == 'OrdemServicosController')
+         {
+             $class = 'active';
+         }
+         @endphp
+         <li class="{{ $class }}">
             <a href="{{ route('ordem_servicos.index') }}" class="nav-link ">
                 <i class="fa fa-ticket-alt"></i>
                 <p>Ordem de Serviço</p>
@@ -61,8 +79,60 @@ $class = 'active show';
 </div>
 </li>
 
+<!-- MENU RAMAIS -->
+
+@php
+$class = '';
+
+if ($controller == 'RamaisValencaController' || $controller == 'RamaisRJController') {
+$class = 'active show';
+}
+@endphp
+<li class="nav-item {{ $class }} ">
+    <a data-toggle="collapse" href="#ramais">
+        <i class="nav-icon fa fa-phone-alt"></i>
+        <p>Ramais</p>
+        <span class="caret"></span>
+    </a>
+    <div class="{{ $class }} collapse " id="ramais">
+        <ul class="nav nav-collapse">
+
+         @php
+         $class = '';
+
+         if ($controller == 'RamaisValencaController')
+         {
+             $class = 'active';
+         }
+         @endphp
+         <li class="{{ $class }}">
+            <a href="{{ route('ramais_valenca.index') }}">
+                <i class="fas fa-phone-volume"></i>
+                <p>Valença</p>
+            </a>
+        </li>
+
+
+        @php
+        $class = '';
+
+        if ($controller == 'RamaisRJController') 
+        {
+            $class = 'active';
+        }
+        @endphp
+        <li class="{{ $class }}">
+            <a href="{{ route('ramais_rj.index') }}">
+                <i class="fas fa-phone-volume"></i>
+                <p>Rio de Janeiro</p>
+            </a>
+        </li>
+    </ul>
+</div>
+</li>
+
 <!-- MENU CONTROLE -->
-            @can('index',\App\User::class)
+@can('index',\App\User::class)
 
 @php
 $class = '';
@@ -157,62 +227,6 @@ $class = 'active';
 </li>
 
 
-
-<!-- MENU RAMAIS -->
-
-@php
-$class = '';
-
-if ($controller == 'RamaisValencaController' || $controller == 'RamaisRJController') {
-$class = 'active show';
-}
-@endphp
-<li class="nav-item {{ $class }} ">
-    <a data-toggle="collapse" href="#ramais">
-        <i class="nav-icon fa fa-phone-alt"></i>
-        <p>Ramais</p>
-        <span class="caret"></span>
-    </a>
-    <div class="{{ $class }} collapse " id="ramais">
-        <ul class="nav nav-collapse">
-
-           @can('index', \App\User::class)    
-           @php
-           $class = '';
-
-           if ($controller == 'RamaisValencaController')
-           {
-               $class = 'active';
-           }
-           @endphp
-           <li class="{{ $class }}">
-            <a href="{{ route('ramais_valenca.index') }}">
-                <i class="fas fa-phone-volume"></i>
-                <p>Valença</p>
-            </a>
-        </li>
-
-        @endcan
-
-        @php
-        $class = '';
-
-        if ($controller == 'RamaisRJController') 
-        {
-            $class = 'active';
-        }
-        @endphp
-        <li class="{{ $class }}">
-            <a href="{{ route('ramais_rj.index') }}">
-                <i class="fas fa-phone-volume"></i>
-                <p>Rio de Janeiro</p>
-            </a>
-        </li>
-    </ul>
-</div>
-</li>
-
-
 <!-- MENU CONFIGURAÇÕES -->
 
 @php
@@ -231,16 +245,16 @@ $class = 'active show';
     <div class="{{ $class }} collapse collapsed " id="configuracoes">
         <ul class="nav nav-collapse">
 
-           @can('index', \App\User::class)    
-           @php
-           $class = '';
+         @can('index', \App\User::class)    
+         @php
+         $class = '';
 
-           if ($controller == 'UsersController' && $action <> 'profile')
-           {
-               $class = 'active';
-           }
-           @endphp
-           <li class="{{ $class }}">
+         if ($controller == 'UsersController' && $action <> 'profile')
+         {
+             $class = 'active';
+         }
+         @endphp
+         <li class="{{ $class }}">
             <a href="{{ route('users.index') }}">
                 <p class="sub-item">Usuários</p>
             </a>
@@ -265,5 +279,27 @@ $class = 'active show';
 </div>
 </li>
 @endcan
-</ul>
+
 </li>
+
+<!-- MENU FAQ -->
+
+
+@php
+$class = '';
+
+if ($controller == 'FaqController') {
+$class = 'active';
+}
+@endphp
+
+<li class="nav-item {{ $class }}">
+    <a href="{{ route('faq') }}" class="nav-link ">
+        <i class="fa fa-question"></i>
+        <p>Ajuda</p>
+    </a>
+</li>
+
+</li>
+
+

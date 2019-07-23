@@ -66,15 +66,15 @@
     </div>
 
     <!-- Modal -->
-{{ Form::restForm($u, ['id' => 'licenca-form']) }}
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Atribuir liçenca a um computador</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+    {{ Form::restForm($u, ['id' => 'licenca-form']) }}
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Atribuir liçenca a um computador</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
       </div>
       <div class="modal-body">
         <div class="form-group">
@@ -88,21 +88,23 @@
             <label>Equipamento</label>
             <select name="equipamento_id" class="form-control select-2">
                 <option value=""></option>
-            @foreach(App\Equipamento::all() as $p)
+                @foreach(App\Equipamento::all() as $p)
                 <option value="{{$p->id}}">{{$p->etiqueta}}</option>
-            @endforeach
-        </select>
+                @endforeach
+            </select>
         </div>
 
-      </div>
-      <div class="modal-footer">
+    </div>
+    <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
         {{ Form::bsSubmit('Salvar') }}
-      </div>
     </div>
-  </div>
+</div>
+</div>
 </div>
 {{ Form::close() }}
+
+
 </div>
 </div>
 @stop

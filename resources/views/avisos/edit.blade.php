@@ -2,11 +2,11 @@
 
 @section('header-title')
     <h1>
-        Ordem de Serviço
+        Aviso
         <small>Editar</small>
     </h1>
 @stop
 
 @section('content')
-    @include('ordem_servicos.form')
+    @include('avisos.form')
 @stop

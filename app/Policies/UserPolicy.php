@@ -17,6 +17,10 @@ class UserPolicy
         // Suas regras aqui
     }
 
+    public function avisar(User $user) {
+        return ($user->role == User::ROLE_ADMIN || $user->role == User::ROLE_RH);
+    }
+
     public function edit(User $user, User $userToEdit) {
         // Suas regras aqui
     }

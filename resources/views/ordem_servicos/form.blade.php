@@ -16,7 +16,7 @@ $disabled = ($ordem_servico->status != 0 && auth()->user()->role == 1)? "disable
 
             <div class="col-md-6" >
                 <div class="form-group">
-                    <label>Equipamento</label>
+                    <label>O problema está relacionado a qual equipamento?</label>
                     <select {{$disabled}} name="equipamento_id" class="form-control select-2">
                         @if($action == 'create')
                         @foreach(\App\Equipamento::all() as $e)
@@ -31,9 +31,26 @@ $disabled = ($ordem_servico->status != 0 && auth()->user()->role == 1)? "disable
                 </div>
             </div>
 
+            <div class="col-md-6"  >
+               {{ Form::bsTextarea('descricao', 'Descreva o problema',['rows' => 3 , ($ordem_servico->status != 0 && auth()->user()->role == 1)? 'disabled':"enabled" => true]) }}
+           </div>
+            
+
+        </div>
+
+        <div class="row">
+
+
+            <div class="col-md-6" >
+
+            </div>
+        </div>
+
+        <div class="row">
+
             <div class="col-md-6" >
                 <div class="form-group">
-                    <label>Setor</label>
+                    <label>O equipamento é de qual setor?</label>
                     <select {{$disabled}} name="setor_id" class="form-control select-2">
                         @if($action == 'create')
                         @foreach(\App\Setor::all() as $s)
@@ -48,58 +65,44 @@ $disabled = ($ordem_servico->status != 0 && auth()->user()->role == 1)? "disable
                 </div>
             </div>
 
-        </div>
-
-        <div class="row">
-
-
-            <div class="col-md-6" >
-
+           <div class="col-md-6" >
+            <div class="form-group">
+                @if($action == 'create')
+                <input type="hidden" class="form-control" value="{{auth()->user()->name}}" placeholder="" selected="" disabled="">
+                @else
+                <input type="hidden" class="form-control" value="{{App\User::find($ordem_servico->cadastrante_id)->name}}" placeholder="" selected="" disabled="">
+                @endif
             </div>
         </div>
+    </div>
 
-        <div class="row">
-            <div class="col-md-6" >
-                <div class="form-group">
-                    <label>Solicitando</label>
+    <div class="row">
+
+        <div class="col-md-6" >
+            <div class="form-group">
+                <label>A qual usuário pertence o equipamento?</label>
+                <select {{$disabled}} name="usuario_id" class="form-control select-2">
                     @if($action == 'create')
-                    <input type="text" class="form-control" value="{{auth()->user()->name}}" placeholder="" selected="" disabled="">
+                    @foreach(\App\User::all() as $u)
+                    <option value="{{$u->id}}" {{($u->id == auth()->user()->id)?'selected':''}}>{{$u->name}}</option>
+                    @endforeach
                     @else
-                    <input type="text" class="form-control" value="{{App\User::find($ordem_servico->cadastrante_id)->name}}" placeholder="" selected="" disabled="">
+                    @foreach(\App\User::all() as $u)
+                    <option value="{{$u->id}}" {{($u->id == App\User::find($ordem_servico->cadastrante_id)->id)?'selected':''}}>{{$u->name}}</option>
+                    @endforeach
                     @endif
-                </div>
-            </div>
-
-            <div class="col-md-6" >
-                <div class="form-group">
-                    <label>Usuário</label>
-                    <select {{$disabled}} name="usuario_id" class="form-control select-2">
-                        @if($action == 'create')
-                        @foreach(\App\User::all() as $u)
-                        <option value="{{$u->id}}" {{($u->id == auth()->user()->id)?'selected':''}}>{{$u->name}}</option>
-                        @endforeach
-                        @else
-                        @foreach(\App\User::all() as $u)
-                        <option value="{{$u->id}}" {{($u->id == App\User::find($ordem_servico->cadastrante_id)->id)?'selected':''}}>{{$u->name}}</option>
-                        @endforeach
-                        @endif
-                    </select>
-                </div>
+                </select>
             </div>
         </div>
 
-        <div class="row">
-         <div class="col-md-6"  >
-             {{ Form::bsTextarea('descricao', 'Descrição',['rows' => 3 , ($ordem_servico->status != 0 && auth()->user()->role == 1)? 'disabled':"enabled" => true]) }}
-         </div>
-         <div class="col-md-6" >
-             {{ Form::bsFile('arquivo', 'Arquivo',[($ordem_servico->status != 0 && auth()->user()->role == 1)? 'disabled':"enabled" => true]) }}
-         </div>
-     </div>
-     <td>{!! \App\OrdemServico::getStatusFormated($ordem_servico->status).'<div class="badge badge-success">'.$ordem_servico->resolucao.'</div>' !!}</td>
+        <div class="col-md-6" >
+           {{ Form::bsFile('arquivo', 'Se possível, envie uma imagem ou arquivo relacionado ao problema',[($ordem_servico->status != 0 && auth()->user()->role == 1)? 'disabled':"enabled" => true]) }}
+       </div>
+   </div>
+   <td>{!! \App\OrdemServico::getStatusFormated($ordem_servico->status) !!}</td>
 
 
- </div>
+</div>
 </div>
 
 @if($action == 'edit')

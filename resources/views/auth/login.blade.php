@@ -8,7 +8,7 @@
             <div class="login-form">
                 @if (\App\User::first())
                 {{ Form::open(['url' => route('login')]) }}
-                <h3 class="text-center">Sistema de OS</h3>
+                <h3 class="text-center">Portal BRVAL</h3>
                 <div class="input-group mb-3">
                     <input type="text" name="usuario" class="form-control" placeholder="Usuário">
 
