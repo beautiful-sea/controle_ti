@@ -117,11 +117,8 @@
 		</div>
 		
 		@php
-		$todosAvisos = App\Aviso::all()->where('NOW()','BETWEEN','data_inicio AND data_fim');
+		$avisos = Illuminate\Support\Facades\DB::table('avisos')->whereRaw('(NOW() BETWEEN data_inicio AND data_fim) AND setor_id = '.auth()->user()->setor_id.' || setor_id = ""')->get();
 		
-		$avisos = $todosAvisos->filter(function ($aviso) {
-    		return ($aviso->setor_id == auth()->user()->setor_id || $aviso->setor_id == '');
-		});
 		@endphp
 		@foreach( $avisos as $a)
 		<div class="col-md-4">
