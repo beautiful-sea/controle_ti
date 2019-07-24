@@ -8,7 +8,7 @@
 
 @section('content')
 <div class="my-2">
-    @can('create', \App\User::class)
+    @can('RH', \App\User::class)
     <a href="{{ route('folha_pagamentos.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Nova Folha de Pagamento</a>
     @endcan
 </div>
@@ -39,7 +39,7 @@
                     <td>{{ App\User::find($u->usuarios_id)->name }}</td>
                     <td>{{ date("d/m/Y",strtotime($u->periodo)) }}</td>
                     <td> 
-                        @can('edit',$u)
+                        @can('RH',App\User::class)
                         <a href='/files/folha_pagamentos/{{date("Y/m",strtotime($u->periodo))}}/{!! $u->usuarios_id.".".$u->extensao !!}' target="_blank" class="btn btn-primary">Visualizar</a> </td>
                         @else
                         <a href='/files/folha_pagamentos/{{date("Y/m",strtotime($u->periodo))}}/{!! $u->usuarios_id.".".$u->extensao !!}' target="_blank" class="btn btn-primary" download='Folha de Pagamento - {{date("d/m/Y",strtotime($u->periodo))}}.{{$u->extensao}}' >Baixar</a> </td>
@@ -47,11 +47,11 @@
 
                     <td>
                         <div class="table-actions">
-                            @can('edit', $u)
+                            @can('RH',App\User::class)
                             <a href="{{ route('folha_pagamentos.edit', ['folha_pagamento' => $u]) }}" class="btn btn-default btn-sm"><i class="fa fa-pencil-alt"></i> Editar</a>
                             @endcan
 
-                            @can('destroy', $u)
+                            @can('RH',App\User::class)
                             {{ Html::deleteLink('Excluir', route('folha_pagamentos.destroy', ['user' => $u]), ['button_class' => 'btn btn-danger btn-sm confirmable', 'icon' => 'trash']) }}
                             @endcan
                         </div>
