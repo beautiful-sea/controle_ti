@@ -98,28 +98,11 @@
 </div>
 
 <div class="container">
+	@if(count($avisos) > 0)
 	<h3>Quadro de Avisos</h3>
-
+	@endif
 	<div class="row">
-
-		<div class="col-md-4">
-			<div class="card card-info bg-info-gradient card-annoucement card-round">
-				<div class="card-body text-center">
-					<div class="card-opening">Olá @php $name = explode(" ",Auth::user()->name); echo $name[0] @endphp,</div>
-					<div class="card-desc">
-						Bem vindo ao portal do colaborador. Agora você pode solicitar ordens de serviço, receber folha de pagamento, informações e muito mais, tudo em um só lugar.
-					</div>
-					<div class="card-detail">
-
-					</div>
-				</div>
-			</div>
-		</div>
 		
-		@php
-		$avisos = Illuminate\Support\Facades\DB::table('avisos')->whereRaw('(NOW() BETWEEN data_inicio AND data_fim) AND (setor_id = '.auth()->user()->setor_id.' || setor_id is null)')->get();
-		
-		@endphp
 		@foreach( $avisos as $a)
 		<div class="col-md-4">
 			<div class="card card-info bg-{{$a->color}}-gradient card-annoucement card-round">
