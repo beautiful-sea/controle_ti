@@ -112,7 +112,20 @@
                         <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
                             <span>
                                 {{Auth::user()->name}}
-                                <span class="user-level">{{(Auth::user()->role == 0)?"Administrador":"Usuário Comum"}}</span>
+                                <span class="user-level">@php 
+
+                                    switch(Auth::user()->role){
+                                    case 0:
+                                    echo "Administrador";
+                                    break;
+                                    case 1:
+                                    echo "Colaborador";
+                                    break;
+                                    case 2:
+                                    echo "Administração";
+                                    break;
+                                }
+                                @endphp</span>
                                 <span class="caret"></span>
                             </span>
                         </a>

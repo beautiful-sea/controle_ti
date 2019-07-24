@@ -27,6 +27,9 @@ class AvisosController extends Controller
      */
     public function create()
     {
+        if(!\Gate::allows('RH')){
+            abort(403,'Você não tem permissão para esta ação.');
+        }
         return view('avisos.create',[
             'aviso'    =>  new Aviso,
             'setores'    =>  Setor::all()
@@ -41,6 +44,10 @@ class AvisosController extends Controller
      */
     public function store(Request $request)
     {
+        if(!\Gate::allows('RH')){
+            abort(403,'Você não tem permissão para esta ação.');
+        }
+
         $aviso = new Aviso;
 
         $aviso->fill($request->all());
@@ -70,6 +77,10 @@ class AvisosController extends Controller
      */
     public function edit(Aviso $aviso)
     {
+        if(!\Gate::allows('RH')){
+            abort(403,'Você não tem permissão para esta ação.');
+        }
+        
         return view('avisos.edit',[
             'aviso'    =>  $aviso,
             'setores'    =>  Setor::all()
@@ -85,6 +96,10 @@ class AvisosController extends Controller
      */
     public function update(Request $request, Aviso $aviso)
     {
+        if(!\Gate::allows('RH')){
+            abort(403,'Você não tem permissão para esta ação.');
+        }
+        
         $aviso->fill($request->all());
 
         $aviso->save();
@@ -100,6 +115,10 @@ class AvisosController extends Controller
      */
     public function destroy(Aviso $aviso)
     {
+        if(!\Gate::allows('RH')){
+            abort(403,'Você não tem permissão para esta ação.');
+        }
+
         $aviso->delete();
 
         return redirect()->route('avisos.index')->with('flash.success', 'Aviso deletado com sucesso');

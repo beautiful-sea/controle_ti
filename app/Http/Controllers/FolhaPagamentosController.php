@@ -16,7 +16,7 @@ class FolhaPagamentosController extends Controller
     public function index()
     {
         $folha_pagamentos = 
-        (auth()->user()->role == 0 ||  auth()->user()->role == 2 )
+        (auth()->user()->role == 2)
         ?FolhaPagamento::all()
         :FolhaPagamento::where('usuarios_id',auth()->user()->id)->get();
 
@@ -32,6 +32,10 @@ class FolhaPagamentosController extends Controller
      */
     public function create()
     {
+        if(!\Gate::allows('RH')){
+            abort(403,'Você não tem permissão para esta ação.');
+        }
+
         return view('folha_pagamentos.create',[
             'folha_pagamentos'  =>  new FolhaPagamento,
             'usuarios'          =>  User::all()
@@ -46,6 +50,10 @@ class FolhaPagamentosController extends Controller
      */
     public function store(Request $request)
     {
+        if(!\Gate::allows('RH')){
+            abort(403,'Você não tem permissão para esta ação.');
+        }
+
         $folha_pagamento = new FolhaPagamento;
 
         $folha_pagamento->fill($request->all());
@@ -86,6 +94,10 @@ class FolhaPagamentosController extends Controller
      */
     public function edit(FolhaPagamento $folhaPagamento)
     {
+        if(!\Gate::allows('RH')){
+            abort(403,'Você não tem permissão para esta ação.');
+        }
+
         return view('folha_pagamentos.edit',[
             'folha_pagamentos'  =>  $folhaPagamento,
             'usuarios'          =>  User::all()
@@ -101,6 +113,10 @@ class FolhaPagamentosController extends Controller
      */
     public function update(Request $request, FolhaPagamento $folhaPagamento)
     {
+        if(!\Gate::allows('RH')){
+            abort(403,'Você não tem permissão para esta ação.');
+        }
+
         $folha_pagamento = $folhaPagamento;
 
         $folha_pagamento->fill($request->all());
@@ -130,6 +146,10 @@ class FolhaPagamentosController extends Controller
      */
     public function destroy(FolhaPagamento $folhaPagamento)
     {
+        if(!\Gate::allows('RH')){
+            abort(403,'Você não tem permissão para esta ação.');
+        }
+        
         $folhaPagamento->delete();
 
         return redirect()->route('folha_pagamentos.index')->with('flash.success', 'Folha de pagamento apagada com sucesso');
