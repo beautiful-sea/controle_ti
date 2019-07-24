@@ -77,6 +77,7 @@
         </div>
 
         <div class="col-md-6">
+            <h3>Prévia do Aviso</h3>
             <div :class="'card card-info bg-' + cor + '-gradient card-annoucement card-round'">
                 <div class="card-body text-center">
                     <div class="card-opening">

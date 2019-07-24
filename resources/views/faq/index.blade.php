@@ -23,11 +23,11 @@
 								<i class="fa fa-ticket-alt"></i>
 								Ordem de Serviço
 							</a>
-							<!-- <a class="nav-link" id="v-pills-profile-tab-icons" data-toggle="pill" href="#v-pills-profile-icons" role="tab" aria-controls="v-pills-profile-icons" aria-selected="false">
-								<i class="flaticon-user-4"></i>
-								Profile
+							<a class="nav-link" id="v-pills-aviso-tab-icons" data-toggle="pill" href="#v-pills-aviso-icons" role="tab" aria-controls="v-pills-aviso-icons" aria-selected="false">
+								<i class="fa fa-exclamation"></i>
+								Quadro de Avisos
 							</a>
-							<a class="nav-link" id="v-pills-buy-tab-icons" data-toggle="pill" href="#v-pills-buy-icons" role="tab" aria-controls="v-pills-buy-icons" aria-selected="false">
+							<!-- <a class="nav-link" id="v-pills-buy-tab-icons" data-toggle="pill" href="#v-pills-buy-icons" role="tab" aria-controls="v-pills-buy-icons" aria-selected="false">
 								<i class="flaticon-cart"></i>
 								How to buy?
 							</a>
@@ -79,19 +79,53 @@
 									
 								</div>
 							</div>
-							<div class="tab-pane fade" id="v-pills-profile-icons" role="tabpanel" aria-labelledby="v-pills-profile-tab-icons">
-								<h5 class="mt-3">Profile</h5>
-								<hr>
-								<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
 
-								<p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
+							<div class="tab-pane fade active" id="v-pills-aviso-icons" role="tabpanel" aria-labelledby="v-pills-aviso-tab-icons">
+								<div class="accordion accordion-secondary" id="accordion">
+									<div class="card">
+										<div class="card-header collapsed" id="repostaUm" data-toggle="collapse" data-target="#perguntaUm" aria-expanded="true" aria-controls="perguntaUm" role="button">
+											<div class="span-icon">
+												<div class="fa fa-question"></div>
+											</div>
+											<div class="span-title">
+												Porque um aviso aparece para alguns e para mim não?
+											</div>
+										</div>
 
-								<p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.</p>
+										<div id="perguntaUm" class="collapse show" aria-labelledby="repostaUm" data-parent="#accordion">
+											<div class="card-body">
+												Os avisos podem ser direcionados a um setor específico, caso não consiga ver um aviso que outros estão vendo é porque ele não foi enviado para o seu setor.
+											</div> 
+										</div>
+									</div>
+									@can('avisar',\App\User::class)
+									<div class="card">
+										<div class="card-header collapsed" id="headingTwo" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" role="button">
+											<div class="span-icon">
+												<div class="fa fa-code"></div>
+											</div>
+											<div class="span-title">
+												Como e quais comandos posso adicionar no aviso?
+											</div>
+										</div>
+										<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+											<div class="card-body">
+												<p>Você pode adicionar no <b>título</b> ou na <b>descrição</b> do aviso alguns comandos específicos para quem está lendo.</p>
+												<h4>Adicionar Colaborador</h4>
+												Para adicionar o nome do colaborador que está lendo basta digitar <b><i>{COLABORADOR}</i></b>.<br><br>
+												<p>EX: Boa tarde, {COLABORADOR}.<br>Saída: Boa tarde, {{explode(' ',auth()->user()->name)[0]}}</p>
 
-								<p>The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didnâ€™t listen. She packed her seven versalia, put her initial into the belt and made herself on the way.</p>
-
-								<p>When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then she continued her way. On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind Text should</p>
+												<h4>Adicionar Setor</h4>
+												Para adicionar o nome do setor de quem está lendo basta digitar <b><i>{SETOR}</i></b>.<br><br>
+												<p>EX: A partir de hoje, o setor {SETOR}...<br>Saída: A partir de hoje, o setor {!! App\Setor::find(auth()->user()->setor_id)->name!!}...</p>
+											</div>
+										</div>
+									</div>
+									@endcan
+									
+								</div>
 							</div>
+
 							<div class="tab-pane fade" id="v-pills-buy-icons" role="tabpanel" aria-labelledby="v-pills-buy-tab-icons">
 								<h5 class="mt-3">How To Buy</h5>
 								<hr>
