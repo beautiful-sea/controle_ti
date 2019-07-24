@@ -27,5 +27,6 @@ Route::resource('ramais_valenca', 'RamaisValencaController');
 Route::resource('ramais_rj', 'RamaisRJController');
 Route::resource('ordem_servicos', 'OrdemServicosController');
 Route::resource('avisos', 'AvisosController');
+Route::resource('folha_pagamentos', 'FolhaPagamentosController');
 
 \BeautifulSea\LaravelRamodnil\LaravelRamodnilServiceProvider::routes();

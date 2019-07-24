@@ -42,6 +42,24 @@ $class = 'active';
     </a>
 </li>
 @endcan
+
+<!-- MENU FOLHA DE PAGAMENTOS -->
+
+@php
+$class = '';
+
+if ($controller == 'FolhaPagamentosController') {
+$class = 'active';
+}
+@endphp
+
+<li class="nav-item {{ $class }}">
+    <a href="{{ route('folha_pagamentos.index') }}" class="nav-link ">
+        <i class="fas fa-file-invoice-dollar"></i>
+        <p>Folha de Pagamento</p>
+    </a>
+</li>
+
 <!-- MENU SUPORTE -->
 
 @php
