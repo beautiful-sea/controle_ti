@@ -117,7 +117,7 @@
 		</div>
 		
 		@php
-		$avisos = Illuminate\Support\Facades\DB::table('avisos')->whereRaw('(NOW() BETWEEN data_inicio AND data_fim) AND setor_id = '.auth()->user()->setor_id.' || setor_id = ""')->get();
+		$avisos = Illuminate\Support\Facades\DB::table('avisos')->whereRaw('(NOW() BETWEEN data_inicio AND data_fim) AND (setor_id = '.auth()->user()->setor_id.' || setor_id is null)')->get();
 		
 		@endphp
 		@foreach( $avisos as $a)

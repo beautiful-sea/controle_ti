@@ -44,8 +44,8 @@
                 <tr class="{{ $class }}">
                     <td>{{ $u->titulo }}</td>
                     <td>{{ Str::limit($u->descricao,20,'...') }}</td>
-                    <td>{{ $u->data_inicio }}</td>
-                    <td>{{ $u->data_fim }}</td>
+                    <td>{{ date('d/m/Y',strtotime($u->data_inicio)) }}</td>
+                    <td>{{ date('d/m/Y',strtotime($u->data_fim)) }}</td>
                     <td>
                         <div class="table-actions">
                             @can('avisar',\App\User::class)

@@ -70,8 +70,7 @@
                                 @php
                                 $u->status = 3 
                                 @endphp
-                                <!-- <a href="{{ route('ordem_servicos.change_status', ['ordem_servicos' => $u,'status'  =>  3]) }}" class="dropdown-item">{!! html_entity_decode(\App\OrdemServico::getStatusInText(3)) !!}</a> -->
-                                <a data-toggle="modal" data-target="#modalServicoExecutado"  class="dropdown-item">{!! html_entity_decode(\App\OrdemServico::getStatusInText(3)) !!}</a>
+                                <a data-toggle="modal" onclick="setServicoExecutado({{$u}})" data-target="#modalServicoExecutado" style="cursor:pointer"  class="dropdown-item">{!! html_entity_decode(\App\OrdemServico::getStatusInText(3)) !!}</a>
 
                                 @php
                                 $u->status = 4 
@@ -105,29 +104,30 @@
 
 <!-- modal RESOLVIDO -->
 <div id="modalServicoExecutado" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3><i class="fa fa-check"></i> Finalizar Ordem de serviço</h3> 
-        </div>
-        <div class="modal-body">
-            <div class="row">
+    {{ Form::open([ 'id' => 'form-servico-executado','method' =>  'PUT']) }}
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fa fa-check"></i> Finalizar Ordem de serviço</h3> 
+            </div>
+            <div class="modal-body">
+                <div class="row">
 
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label><h4>Serviço Executado:</h4></label>
-                        <textarea name="servico_executado" id="servico_executado-modal" class="form-control" cols="30" rows="10"></textarea>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label><h4>Serviço Executado:</h4></label>
+                            <textarea name="servico_executado" id="servico_executado-modal" class="form-control" cols="30" rows="10"></textarea>
+                        </div>
                     </div>
+
                 </div>
 
-            </div>
+                {{ Form::bsSubmit('Salvar') }}
 
-            <div class="modal-footer">
-                <button class="btn btn-success">Salvar</button>
+                {{ Form::close() }}
             </div>
         </div>
     </div>
-</div>
 </div>
 
 <!-- Modal DETALHES-->
@@ -191,25 +191,31 @@
     </div>
 
     <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>Status atual:</label>
-                <div id="status-modal"></div>
-            </div>
-        </div>
+
 
         <div class="col-md-6">
             <div class="form-group">
                 <label>Descrição:</label>
                 <textarea disabled name="descricao" id="descricao-modal" rows="5" class="form-control"></textarea>
             </div>
-        </div>
+        </div> 
 
-        
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Serviço Executado:</label>
+                <textarea disabled name="servico_executado" id="servico-executado-modal" rows="5" class="form-control"></textarea>
+            </div>
+        </div>   
     </div>
 
-
-    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Status atual:</label>
+                <div id="status-modal"></div>
+            </div>
+        </div>
+    </div>
 
 </div>
 <div class="modal-footer">
@@ -229,7 +235,12 @@
     $('#ordem_servicos-list').DataTable();
 
     function setImageModal(id,extension){
-        $('#img_modal').attr("src", "/files/ordem_servico/"+id+"."+extension);;
+        $('#img_modal').attr("src", "/files/ordem_servico/"+id+"."+extension);
+    }
+
+    function setServicoExecutado(os){
+        $('#form-servico-executado').attr("action", "/ordem_servicos/"+os.id+"");
+        $('#servico_executado-modal').val(os.servico_executado);
     }
 
     function setDetalhes(os){
@@ -240,6 +251,7 @@
         $('#usuario-modal').val(os.usuario.name);
         $('#setor-modal').val(os.setor.name);
         $('#descricao-modal').val(os.descricao);
+        $('#servico-executado-modal').val(os.servico_executado);
         $('#status-modal').html(os.statusFormated);
         $('#criado-modal').val(moment(os.created_at).format('DD/MM/Y H:m:ss',true));
         $('#resolucao-modal').val(moment(os.resolucao).format('DD/MM/Y H:m:ss',true));
