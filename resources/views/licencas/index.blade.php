@@ -32,15 +32,8 @@
                 </thead>
                 <tbody>
                     @foreach($licencas as $u)
-                    @php
-                    $class = '';
 
-                    if ($u->locked) {
-                    $class = 'text-muted';
-                }
-                @endphp
-
-                <tr class="{{ $class }}">
+                <tr>
                     <td>{!! $u->chave !!}</td>
                     <td>{!! '<div class="badge badge-secondary">'.App\Produto::find($u->produto_id)->nome.'</div>' !!}</td>
                     <td>{!! ($u->equipamento_id)?('<div class="badge badge-primary">'.App\Equipamento::find($u->equipamento_id)->etiqueta.'</div>'):'<div class="badge badge-danger">Nenhum</div>'!!}</td>
@@ -66,7 +59,7 @@
     </div>
 
     <!-- Modal -->
-    {{ Form::restForm($u, ['id' => 'licenca-form']) }}
+    {{ Form::open(['id' => 'licenca-form']) }}
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -114,6 +107,7 @@
     $('#licencas-list').DataTable();
 
     function setLicenca(licenca){
+        console.log(licenca);
         $('#licenca-modal').val(licenca.chave);
         $('#licenca-id').val(licenca.id);
     }

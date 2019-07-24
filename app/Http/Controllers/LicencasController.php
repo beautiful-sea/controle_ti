@@ -74,8 +74,11 @@ class LicencasController extends Controller
      */
     public function edit(Licenca $licenca)
     {
+        $produtos = Produto::all();
+        
         return view('licencas.edit',[
-            'licenca'  =>  $licenca
+            'licenca'  =>  $licenca,
+            'produtos'  =>  $produtos
         ]);
     }
 

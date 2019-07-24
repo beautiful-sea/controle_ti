@@ -8,7 +8,7 @@
             <label>Produto</label>
             <select name="produto_id" class="form-control select-2">
             @foreach($produtos as $p)
-                <option value="{{$p->id}}">{{$p->nome}}</option>
+                <option value="{{$p->id}}" {{($p->id == $licenca->produto_id)?'selected':''}}>{{$p->nome}}</option>
             @endforeach
         </select>
         </div>
