@@ -7,6 +7,8 @@ use App\User;
 use Illuminate\Support\Facades\Hash;
 use Auth;
 use App\Notifications\CreatedUser;
+use Illuminate\Support\Facades\Response;
+use App\FolhaPagamento;
 
 class UsersController extends Controller
 {
@@ -89,11 +91,19 @@ class UsersController extends Controller
 
         $user->fill($request->all());
 
+        if(!empty($request->personal_access_code)){
+            $user->personal_access_code =  Hash::make($request->personal_access_code);
+        }
+
         if (!empty($request->new_password)) {
             $user->password = Hash::make($request->new_password);
         }
 
         $user->save();
+
+        if(!empty($request->personal_access_code)){
+            return response(200);
+        }
 
         return redirect()->route('users.index')->with('flash.success', 'Usuário salvo com sucesso');
     }
@@ -190,5 +200,37 @@ class UsersController extends Controller
         $user->save();
 
         return redirect()->route('users.index')->with('flash.success', 'Usuário desbloqueado com sucesso');
+    }
+
+    public function verifyPersonalAcessToken(Request $request){
+
+        $user = auth()->user();
+
+        $data = $request->all();
+
+        return $data;
+        if(Hash::check($data['personal_access_code'], $user->personal_access_code) && !isset($data['data'])){
+
+            $folhaPagamentoHoje = FolhaPagamento::where('periodo',date('Y-m-d'))->where('usuarios_id',auth()->user()->id)->first();
+
+            $download ='Folha de Pagamento - '.date("d/m/Y",strtotime($folhaPagamentoHoje->periodo)).$folhaPagamentoHoje->extensao;
+
+            $file_url = '/files/folha_pagamentos/'.date("Y/m",strtotime($folhaPagamentoHoje->periodo)).'/'.$folhaPagamentoHoje->usuarios_id.'.'.$folhaPagamentoHoje->extensao;
+
+
+            return response(['message' => 'Acesso permitido.','file_url' => $file_url,'download'    =>  $download], 200)->header('Content-Type', 'application/json');
+
+        }elseif(Hash::check($data['personal_access_code'], $user->personal_access_code)){
+            $folhaPagamento = FolhaPagamento::where('periodo',date("Y-m-d",$data['data']))->where('usuarios_id',auth()->user()->id)->first();
+
+            $download ='Folha de Pagamento - '.date("d/m/Y",strtotime($folhaPagamento->periodo)).$folhaPagamento->extensao;
+
+            $file_url = '/files/folha_pagamentos/'.date("Y/m",strtotime($folhaPagamento->periodo)).'/'.$folhaPagamento->usuarios_id.'.'.$folhaPagamento->extensao;
+
+
+            return response(['message' => 'Acesso permitido.','file_url' => $file_url,'download'    =>  $download], 200)->header('Content-Type', 'application/json');
+        }else{
+            return response(['message' => 'Código incorreto.'], 401)->header('Content-Type', 'application/json');
+        }
     }
 }

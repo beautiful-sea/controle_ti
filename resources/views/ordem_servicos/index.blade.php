@@ -232,7 +232,9 @@
 
 @section('js')
 <script>
-    $('#ordem_servicos-list').DataTable();
+    $('#ordem_servicos-list').DataTable({
+        bSort:false
+    });
 
     function setImageModal(id,extension){
         $('#img_modal').attr("src", "/files/ordem_servico/"+id+"."+extension);

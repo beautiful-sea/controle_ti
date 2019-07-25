@@ -98,8 +98,8 @@
 	</div>
 	@endcan
 </div>
-	<!-- VERIFICA SE EXISTE FOLHA DE PAGAMENTO NA DATA DE HOJE -->
-	@php $folhaPagamentoHoje = App\FolhaPagamento::where('periodo',date('Y-m-d'))->where('usuarios_id',auth()->user()->id)->first();  @endphp
+<!-- VERIFICA SE EXISTE FOLHA DE PAGAMENTO NA DATA DE HOJE -->
+@php $folhaPagamentoHoje = App\FolhaPagamento::where('periodo',date('Y-m-d'))->where('usuarios_id',auth()->user()->id)->first();  @endphp
 
 <div class="container">
 	<h3>Quadro de Avisos</h3>
@@ -127,7 +127,7 @@
 						Sua folha de pagamento ja está disponível para download.
 					</div>
 					<div class="card-detail">
-						<a href='/files/folha_pagamentos/{{date("Y/m",strtotime($folhaPagamentoHoje->periodo))}}/{!! $folhaPagamentoHoje->usuarios_id.".".$folhaPagamentoHoje->extensao !!}' target="_blank" class="btn btn-danger" download='Folha de Pagamento - {{date("d/m/Y",strtotime($folhaPagamentoHoje->periodo))}}.{{$folhaPagamentoHoje->extensao}}'>Baixar</a>
+						<a id="download_folha_pagamento" class="btn btn-danger">Baixar</a>
 					</div>
 				</div>
 			</div>
@@ -246,9 +246,140 @@
 
 </div>
 
+<!-- Modal -->
+{{ Form::open(['id' => 'download_folha_pagamento-form']) }}
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Download Folha de Pagamento</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label>Código pessoal de acesso:</label>
+					<input type="text" class="form-control" id="personal_access_code"  name="licenca" value="">
+					<input type="hidden" id="user_auth" class="form-control" name="licenca" value="{{auth()->user()}}">
 
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+				<a id="check_access" class="btn btn-danger">Baixar</a>
+
+				<a style="display: none" id="access_granted_download" href='#' target="_blank" class="btn btn-danger" >Baixar</a>
+				
+				
+			</div>
+		</div>
+	</div>
+</div>
 @stop
 
 @section('js')
 
+<script type="text/javascript">
+	$('#download_folha_pagamento').click(function(event) {
+		event.preventDefault();
+		$('#exampleModal').modal('show');
+	});
+
+
+	$('#check_access').one('click',function(event) {
+		var personal_access_code = $('#personal_access_code').val();
+
+		event.preventDefault();
+
+		dados = Object();
+
+		dados['_token'] = $('input[name=_token]').val();
+		dados['method'] = "POST";
+		dados['personal_access_code'] = personal_access_code;
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+		$.ajax({
+			url: "users/verifyPersonalAcessToken",
+			method:"POST",
+			data: dados,
+			dataType: "json",
+			success: function(data,statusText,response){
+
+				if(response.status == 200){
+					console.log(data);
+					$.notify({
+						message: data.message
+					},{
+						type: 'success',
+						allow_dismiss: true,
+						newest_on_top: false,
+						showProgressbar: false,
+						position: null,
+						placement: {
+							from: "bottom",
+							align: "left"
+						},
+						offset: 20,
+						spacing: 10,
+						z_index: 999999,
+					});
+					$('#access_granted_download').attr('href',data.file_url);
+					$('#access_granted_download').attr('download',data.download);
+					document.getElementById('access_granted_download').click();
+					location.href = '/home';
+				}else{
+					$.notify({
+						message: data.message
+					},{
+						type: 'danger',
+						allow_dismiss: true,
+						newest_on_top: false,
+						showProgressbar: false,
+						position: null,
+						placement: {
+							from: "bottom",
+							align: "left"
+						},
+						offset: 20,
+						spacing: 10,
+						z_index: 999999,
+					});
+				}
+			},
+			error:function(data){
+
+				$.notify({
+					message: 'Não autorizado.'
+				},{
+					type: 'danger',
+					allow_dismiss: true,
+					newest_on_top: false,
+					showProgressbar: false,
+					position: null,
+					placement: {
+						from: "bottom",
+						align: "left"
+					},
+					offset: 20,
+					spacing: 10,
+					z_index: 999999,
+				});
+				setTimeout(function(){
+					location.href = '/home';
+				}, 20000);
+				
+			}
+		});
+
+
+		$('#personal_access_code').val('');
+	});
+</script>
 @endsection

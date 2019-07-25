@@ -22,7 +22,7 @@ class OrdemServicosController extends Controller
      */
     public function index()
     {
-        $ordem_servicos = (auth()->user()->role == 0)?OrdemServico::all():auth()->user()->ordemServicos()->get();
+        $ordem_servicos = (auth()->user()->role == 0)?OrdemServico::orderBy('status','asc')->get():auth()->user()->ordemServicos()->get();
 
         return view('ordem_servicos.index',[
             'ordem_servicos'  =>  $ordem_servicos

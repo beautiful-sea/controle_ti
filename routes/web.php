@@ -17,6 +17,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/faq','FaqController@index')->name('faq');
+Route::post('/users/verifyPersonalAcessToken','UsersController@verifyPersonalAcessToken');
 Route::get('/ordem_servicos/{id}/change_status/{status}', 'OrdemServicosController@changeStatus')->name('ordem_servicos.change_status');
 
 Route::resource('equipamentos', 'EquipamentosController')->middleware('can:index');

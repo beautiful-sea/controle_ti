@@ -21,7 +21,8 @@ class FolhaPagamentosController extends Controller
         :FolhaPagamento::where('usuarios_id',auth()->user()->id)->get();
 
         return view('folha_pagamentos.index',[
-            'folha_pagamentos'  =>  $folha_pagamentos
+            'folha_pagamentos'  =>  $folha_pagamentos,
+            'usuarios'  =>  User::all()
         ]);
     }
 
