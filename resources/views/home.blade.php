@@ -11,9 +11,11 @@
 
 @section('content')
 
-@can('index',\App\User::class)
+@can('ADMIN',\App\User::class)
 
 <div class="row">
+
+
 
 	<div class="col-sm-6 col-md-3">
 		<div class="card card-stats card-primary card-round">
@@ -96,20 +98,49 @@
 	</div>
 	@endcan
 </div>
+	<!-- VERIFICA SE EXISTE FOLHA DE PAGAMENTO NA DATA DE HOJE -->
+	@php $folhaPagamentoHoje = App\FolhaPagamento::where('periodo',date('Y-m-d'))->where('usuarios_id',auth()->user()->id)->first();  @endphp
 
 <div class="container">
-	@if(count($avisos) > 0)
 	<h3>Quadro de Avisos</h3>
-	@endif
 	<div class="row">
-		
+		<div class="col-md-4">
+			<div class="card card-info bg-default-gradient card-annoucement card-round">
+				<div class="card-body text-center">
+					<div class="card-opening">Bem vindo ao Portal BRVAL</div>
+					<div class="card-desc">
+						<img src="http://brval.com.br/wp-content/uploads/2013/04/logo3-300x123.png" width='200'>
+					</div>
+					<div class="card-detail">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		@if(count($folhaPagamentoHoje) > 0)
+
+		<div class="col-md-4">
+			<div class="card card-info bg-danger-gradient card-annoucement card-round">
+				<div class="card-body text-center">
+					<div class="card-opening">Atenção</div>
+					<div class="card-desc">
+						Sua folha de pagamento ja está disponível para download.
+					</div>
+					<div class="card-detail">
+						<a href='/files/folha_pagamentos/{{date("Y/m",strtotime($folhaPagamentoHoje->periodo))}}/{!! $folhaPagamentoHoje->usuarios_id.".".$folhaPagamentoHoje->extensao !!}' target="_blank" class="btn btn-danger" download='Folha de Pagamento - {{date("d/m/Y",strtotime($folhaPagamentoHoje->periodo))}}.{{$folhaPagamentoHoje->extensao}}'>Baixar</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		@endif
+
 		@foreach( $avisos as $a)
 		<div class="col-md-4">
 			<div class="card card-info bg-{{$a->color}}-gradient card-annoucement card-round">
 				<div class="card-body text-center">
 					<div class="card-opening">{{$a->titulo}}</div>
 					<div class="card-desc">
-						{{$a->descricao}}
+						{!!$a->descricao!!}
 					</div>
 					<div class="card-detail">
 

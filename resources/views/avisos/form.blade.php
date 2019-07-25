@@ -1,4 +1,4 @@
-{{ Form::restForm($aviso, ['id' => 'produto-form']) }}
+{{ Form::restForm($aviso, ['id' => 'avisos-form']) }}
 <div id="app">
     <div class="card">
         <div class="card-body">
@@ -14,7 +14,7 @@
 
 @section('js')
 <script>
-    $('#produto-form').validate({
+    $('#avisos-form').validate({
         rules: {
             'titulo': 'required',
             'descricao': 'required',
@@ -24,4 +24,5 @@
         }
     });
 </script>
+
 @endsection

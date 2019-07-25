@@ -1827,6 +1827,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['aviso', 'setores'],
   mounted: function mounted() {},
@@ -115103,11 +115104,7 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "card-desc" }, [
-              _vm._v(
-                "\n                    " +
-                  _vm._s(_vm.descricao) +
-                  "\n                "
-              )
+              _c("span", { domProps: { innerHTML: _vm._s(_vm.descricao) } })
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "card-detail" })

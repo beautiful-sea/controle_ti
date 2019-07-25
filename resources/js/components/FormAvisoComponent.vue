@@ -84,13 +84,14 @@
                         {{titulo}}
                     </div>
                     <div class="card-desc">
-                        {{descricao}}
+                        <span v-html="descricao"></span>
                     </div>
                     <div class="card-detail">
 
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </template>

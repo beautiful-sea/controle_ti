@@ -37,7 +37,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
-                    {{ Form::bsPassword('old_password', 'Senha Antiga', ['autocomplete' => 'new-password']) }}
+                    {{ Form::bsPassword('old_password', 'Senha Antiga', ['autocomplete' => 'false']) }}
                 </div>
             </div>
 

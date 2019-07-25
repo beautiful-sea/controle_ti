@@ -112,20 +112,7 @@
                         <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
                             <span>
                                 {{Auth::user()->name}}
-                                <span class="user-level">@php 
-
-                                    switch(Auth::user()->role){
-                                    case 0:
-                                    echo "Administrador";
-                                    break;
-                                    case 1:
-                                    echo "Colaborador";
-                                    break;
-                                    case 2:
-                                    echo "Administração";
-                                    break;
-                                }
-                                @endphp</span>
+                                <span class="user-level">{{App\Setor::find(Auth::user()->setor_id)->name}}</span>
                                 <span class="caret"></span>
                             </span>
                         </a>
