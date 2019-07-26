@@ -14,7 +14,7 @@ $disabled = ($ordem_servico->status != 0 && auth()->user()->role == 1)? "disable
 
         <div class="row">
             <div class="col-md-6">
-                
+
                 <div class="row" >
                     <div class="form-group">
                         <label>O problema está relacionado a qual equipamento?</label>
@@ -69,11 +69,11 @@ $disabled = ($ordem_servico->status != 0 && auth()->user()->role == 1)? "disable
 
             <div class="col-md-6">
                 <div class="row"  >
-                   {{ Form::bsTextarea('descricao', 'Descreva o problema',['rows' => 3 , ($ordem_servico->status != 0 && auth()->user()->role == 1)? 'disabled':"enabled" => true]) }}
-               </div>
+                 {{ Form::bsTextarea('descricao', 'Descreva o problema',['rows' => 3 , ($ordem_servico->status != 0 && auth()->user()->role == 1)? 'disabled':"enabled" => true]) }}
+             </div>
 
 
-               <div class="row" >
+             <div class="row" >
                 <div class="form-group">
                     @if($action == 'create')
                     <input type="hidden" class="form-control" value="{{auth()->user()->name}}" placeholder="" selected="" disabled="">
@@ -84,13 +84,13 @@ $disabled = ($ordem_servico->status != 0 && auth()->user()->role == 1)? "disable
             </div>
 
             <div class="row" >
-             {{ Form::bsFile('arquivo', 'Se possível, envie uma imagem (print) mostrando o problema',[($ordem_servico->status != 0 && auth()->user()->role == 1)? 'disabled':"enabled" => true]) }}
-         </div>
-     </div>
+               {{ Form::bsFile('arquivo', 'Se possível, envie uma imagem (print) mostrando o problema',[($ordem_servico->status != 0 && auth()->user()->role == 1)? 'disabled':"enabled" => true]) }}
+           </div>
+       </div>
 
- </div>
+   </div>
 
- <td>{!! \App\OrdemServico::getStatusFormated($ordem_servico->status) !!}</td>
+   <td>{!! \App\OrdemServico::getStatusFormated($ordem_servico->status) !!}</td>
 
 
 </div>
@@ -130,7 +130,7 @@ $disabled = ($ordem_servico->status != 0 && auth()->user()->role == 1)? "disable
 
 @endcan
 @endif
-{{ Form::bsSubmit('Salvar') }}
+{{ Form::bsSubmit('Salvar',['id'=>'salvar']) }}
 
 {{ Form::close() }}
 
@@ -141,6 +141,7 @@ $disabled = ($ordem_servico->status != 0 && auth()->user()->role == 1)? "disable
             'nome': 'required',
             'descricao': 'required',
         }
-    });
+    }); 
+
 </script>
 @endsection

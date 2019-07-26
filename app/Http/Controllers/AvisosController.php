@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Aviso;
 use App\Setor;
 use Illuminate\Http\Request;
+use App\Events\AvisoCadastrado;
 
 class AvisosController extends Controller
 {
@@ -48,13 +49,21 @@ class AvisosController extends Controller
             abort(403,'Você não tem permissão para esta ação.');
         }
 
-        $aviso = new Aviso;
+        try{
+            $aviso = new Aviso;
 
-        $aviso->fill($request->all());
+            $aviso->fill($request->all()['aviso']);
 
-        $aviso->save();
+            $aviso->save();
 
-        return redirect()->route('avisos.index')->with('flash.success', 'Aviso criado com sucesso');
+                    // fire PostPublished event after post is successfully added to database
+            event(new AvisoCadastrado($aviso));
+
+            return response(200);
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+        
 
     }
 

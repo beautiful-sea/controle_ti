@@ -1,4 +1,4 @@
-{{ Form::restForm($aviso, ['id' => 'avisos-form']) }}
+
 <div id="app">
     <div class="card">
         <div class="card-body">
@@ -7,12 +7,8 @@
     </div>  
 </div>
 
-
-{{ Form::bsSubmit('Salvar') }}
-
-{{ Form::close() }}
-
 @section('js')
+
 <script>
     $('#avisos-form').validate({
         rules: {
@@ -23,6 +19,7 @@
             'color': 'required',
         }
     });
+
 </script>
 
 @endsection

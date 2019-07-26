@@ -78,6 +78,8 @@ class OrdemServicosController extends Controller
             $user->notify(new CreatedOrdemServico($ordem_servico));
         }
 
+
+
         return redirect()->route('ordem_servicos.index')->with('flash.success', 'Ordem de Serviço salva com sucesso');
     }
 

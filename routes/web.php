@@ -11,9 +11,19 @@
 |
 */
 
+use App\Events\AvisoCadastrado;
+use App\Aviso;
 Route::get('/','HomeController@index')->name('home') ;
 
 Auth::routes();
+
+Route::get('event', function(){
+	echo 'asda';
+		event(new AvisoCadastrado('new Aviso'));
+});
+
+
+
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/faq','FaqController@index')->name('faq');
