@@ -208,8 +208,9 @@ class UsersController extends Controller
 
         $data = $request->all();
 
-        return $data;
         if(Hash::check($data['personal_access_code'], $user->personal_access_code) && !isset($data['data'])){
+
+            
 
             $folhaPagamentoHoje = FolhaPagamento::where('periodo',date('Y-m-d'))->where('usuarios_id',auth()->user()->id)->first();
 
@@ -220,8 +221,10 @@ class UsersController extends Controller
 
             return response(['message' => 'Acesso permitido.','file_url' => $file_url,'download'    =>  $download], 200)->header('Content-Type', 'application/json');
 
-        }elseif(Hash::check($data['personal_access_code'], $user->personal_access_code)){
-            $folhaPagamento = FolhaPagamento::where('periodo',date("Y-m-d",$data['data']))->where('usuarios_id',auth()->user()->id)->first();
+        }elseif(Hash::check($data['personal_access_code'], $user->personal_access_code) && isset($data['data'])){
+
+
+            $folhaPagamento = FolhaPagamento::where('periodo',date("Y-m-d",strtotime($this->dateEmMysql($data['data']))))->where('usuarios_id',auth()->user()->id)->first();
 
             $download ='Folha de Pagamento - '.date("d/m/Y",strtotime($folhaPagamento->periodo)).$folhaPagamento->extensao;
 

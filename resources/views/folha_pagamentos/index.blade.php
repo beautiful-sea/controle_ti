@@ -39,9 +39,9 @@
                     <td>{{ App\User::find($u->usuarios_id)->name }}</td>
                     <td>{{ date("d/m/Y",strtotime($u->periodo)) }}</td>
                     <td> 
-                     <a id="download_folha_pagamento" onclick="download_folha_pagamento('{{date("d/m/Y",strtotime($u->periodo))}}')" href='javascript:void(0)' target="_blank" class="btn btn-primary" >Baixar</a> </td>
+                       <a id="download_folha_pagamento" onclick="download_folha_pagamento('{{date("d/m/Y",strtotime($u->periodo))}}')" href='javascript:void(0)' target="_blank" class="btn btn-primary" >Baixar</a> </td>
 
-                     <td>
+                       <td>
                         <div class="table-actions">
                             @can('RH',App\User::class)
                             <a href="{{ route('folha_pagamentos.edit', ['folha_pagamento' => $u]) }}" class="btn btn-default btn-sm"><i class="fa fa-pencil-alt"></i> Editar</a>
@@ -82,7 +82,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Código de Acesso</label> <i class="fa fa-question-circle"  data-toggle="tooltip" data-placement="top" title="Combinação de digitos pessoais do colaborador.  EX: (final do CPF + final RG)"></i>
-                    <input required="required" class="form-control" type="text" id="personal_access_code" name="personal_access_code">
+                    <input required="required" class="form-control" type="text" id="new_personal_access_code" name="personal_access_code">
                 </div>
             </div>
 
@@ -122,121 +122,125 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                 <a id="check_access" class="btn btn-danger">Baixar</a>
 
-                <a style="display: none" id="access_granted_download" href="#" >Baixar</a>
+                <a style="display: none" id="access_granted_download" href="javascript:void(0)" >Baixar</a>
                 <input type="hidden" id="dt_folha_pagamento" value="">
                 
             </div>
         </div>
     </div>
 </div>
+{{ Form::close() }}
 @stop
 
 @section('js')
 <script>
     $('#folha_pagamentos-list').DataTable();
-    
 
-    $("#personal_access_code-form").submit(function(e){
-        e.preventDefault();
-        user['personal_access_code'] = $("#personal_access_code").val();
-        user['_token'] = $('input[name=_token]').val();
-        user['_method'] = 'PUT';
-        $.ajax({
-            url: "users/"+user.id,
-            method:"POST",
-            data: user,
-            dataType: "json"
-        }).done(function() {
-            $.notify({
-                message: 'Código cadastrado com sucesso!'
-            },{
-                type: 'success'
-            });
-        }).fail(function(){
-           $.notify({
+// BLOQUEIA A TECLA ENTER PARA NÃO ENVIAR FORMULARIO
+$(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+  }
+});
+
+// ENVIA O FORMULARIO DE CADASTRO E INFORMA O RETORNO
+$("#personal_access_code-form").submit(function(e){
+    e.preventDefault();
+    user = JSON.parse($('#user').val());
+    user['personal_access_code'] = $("#new_personal_access_code").val();
+    user['_token'] = $('input[name=_token]').val();
+    user['_method'] = 'PUT';
+    $.ajax({
+        url: "users/"+user.id,
+        method:"POST",
+        data: user,
+        dataType: "json"
+    }).done(function(data) {
+
+        $.notify({
+            message: 'Código cadastrado com sucesso!'
+        },{
+            type: 'success',
+            position: null,
+            placement: {
+                from: "bottom",
+                align: "right"
+            }
+        });
+    }).fail(function(data){
+        console.log(data);
+        $.notify({
             message: 'Ops.. Parece que ocorreu um erro durante o cadastro.'
         },{
             type: 'danger'
         });
-       });
-
-        $("#personal_access_code").val('');
     });
 
+    $("#new_personal_access_code").val('');
+});
 
-    function download_folha_pagamento(data){
-        $("#dt_folha_pagamento").val(data);
-        $('#exampleModal').modal('show');  
-    }
+// ABRE MODAL QUE SOLICITA CODIGO PESSOAL PARA BAIXAR A FOLHA DE PAGAMENTO
+// INSERE NO INPUT HIDDEN A DATA DA FOLHA A SER BAIXADA
+function download_folha_pagamento(data){
+    $("#dt_folha_pagamento").val(data);
+    $('#exampleModal').modal('show');  
+}
 
 
-    $('#check_access').one('click',function(event) {
-        var personal_access_code = $('#personal_access_code').val();
+// VERIFICA O CODIGO DE ACESSO INFORMADO E RETORNA O DOWNLOAD CASO SUCESSO, OU MENSAGEM DE ERRO CASO CODIGO ERRADO
+$('#check_access').one('click',function(event) {
+    var personal_access_code = $('#personal_access_code').val();
 
-        event.preventDefault();
+    event.preventDefault();
 
-        dados = Object();
+    dados = Object();
 
-        dados['_token'] = $('input[name=_token]').val();
-        dados['method'] = "POST";
-        dados['personal_access_code'] = personal_access_code;
-        dados['data']   =   $("#dt_folha_pagamento").val();
+    dados['_token'] = $('input[name=_token]').val();
+    dados['method'] = "POST";
+    dados['personal_access_code'] = personal_access_code;
+    dados['data']   =   $("#dt_folha_pagamento").val();
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: "users/verifyPersonalAcessToken",
-            method:"POST",
-            data: dados,
-            dataType: "json",
-            success: function(data,statusText,response){
-                    console.log(data);
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url: "users/verifyPersonalAcessToken",
+        method:"POST",
+        data: dados,
+        dataType: "json",
+        success: function(data,statusText,response){
+            console.log(data);
 
-                if(response.status == 200){
-                    $.notify({
-                        message: data.message
-                    },{
-                        type: 'success',
-                        allow_dismiss: true,
-                        newest_on_top: false,
-                        showProgressbar: false,
-                        position: null,
-                        placement: {
-                            from: "bottom",
-                            align: "left"
-                        },
-                        offset: 20,
-                        spacing: 10,
-                        z_index: 999999,
-                    });
-                    document.getElementById('access_granted_download').click();
-                }else{
-                    $.notify({
-                        message: data.message
-                    },{
-                        type: 'danger',
-                        allow_dismiss: true,
-                        newest_on_top: false,
-                        showProgressbar: false,
-                        position: null,
-                        placement: {
-                            from: "bottom",
-                            align: "left"
-                        },
-                        offset: 20,
-                        spacing: 10,
-                        z_index: 999999,
-                    });
-                }
-            },
-            error:function(data){
-                    console.log(data);
-
+            if(response.status == 200){
                 $.notify({
-                    message: 'Não autorizado.'
+                    message: data.message
+                },{
+                    type: 'success',
+                    allow_dismiss: true,
+                    newest_on_top: false,
+                    showProgressbar: false,
+                    position: null,
+                    placement: {
+                        from: "bottom",
+                        align: "left"
+                    },
+                    offset: 20,
+                    spacing: 10,
+                    z_index: 999999,
+                });
+                $('#access_granted_download').attr('href',data.file_url);
+                $('#access_granted_download').attr('download',data.download);
+                document.getElementById('access_granted_download').click();
+
+                setTimeout(function(){
+                    location.href = '/folha_pagamentos';
+                }, 1300);
+            }else{
+                $.notify({
+                    message: data.message
                 },{
                     type: 'danger',
                     allow_dismiss: true,
@@ -251,15 +255,36 @@
                     spacing: 10,
                     z_index: 999999,
                 });
-                setTimeout(function(){
-                    location.href = '/folha_pagamentos';
-                }, 200000);
-                
             }
-        });
+        },
+        error:function(data){
+            console.log(data);
 
+            $.notify({
+                message: 'Não autorizado.'
+            },{
+                type: 'danger',
+                allow_dismiss: true,
+                newest_on_top: false,
+                showProgressbar: false,
+                position: null,
+                placement: {
+                    from: "bottom",
+                    align: "left"
+                },
+                offset: 20,
+                spacing: 10,
+                z_index: 999999,
+            });
+            setTimeout(function(){
+                location.href = '/folha_pagamentos';
+            }, 2000);
 
-        $('#personal_access_code').val('');
+        }
     });
+
+
+    $('#personal_access_code').val('');
+});
 </script>
 @stop

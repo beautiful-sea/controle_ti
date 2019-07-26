@@ -43,6 +43,8 @@ $class = 'active';
 </li>
 @endcan
 
+
+@can('avisar',\App\User::class)
 <!-- MENU FOLHA DE PAGAMENTOS -->
 
 @php
@@ -59,7 +61,7 @@ $class = 'active';
         <p>Folha de Pagamento</p>
     </a>
 </li>
-
+@endcan
 <!-- MENU SUPORTE -->
 
 @php

@@ -288,75 +288,66 @@
 		$('#exampleModal').modal('show');
 	});
 
-
-	$('#check_access').one('click',function(event) {
-		var personal_access_code = $('#personal_access_code').val();
-
+// BLOQUEIA A TECLA ENTER PARA NÃO ENVIAR FORMULARIO
+$(window).keydown(function(event){
+	if(event.keyCode == 13) {
 		event.preventDefault();
+		return false;
+	}
+});
 
-		dados = Object();
 
-		dados['_token'] = $('input[name=_token]').val();
-		dados['method'] = "POST";
-		dados['personal_access_code'] = personal_access_code;
 
-		$.ajaxSetup({
-			headers: {
-				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-			}
-		});
-		$.ajax({
-			url: "users/verifyPersonalAcessToken",
-			method:"POST",
-			data: dados,
-			dataType: "json",
-			success: function(data,statusText,response){
+// VERIFICA O TOKEN DE ACESSO DO USUARIO PARA PERMITIR O DONWLOAD OU REJEITAR
+$('#check_access').one('click',function(event) {
+	var personal_access_code = $('#personal_access_code').val();
 
-				if(response.status == 200){
-					console.log(data);
-					$.notify({
-						message: data.message
-					},{
-						type: 'success',
-						allow_dismiss: true,
-						newest_on_top: false,
-						showProgressbar: false,
-						position: null,
-						placement: {
-							from: "bottom",
-							align: "left"
-						},
-						offset: 20,
-						spacing: 10,
-						z_index: 999999,
-					});
-					$('#access_granted_download').attr('href',data.file_url);
-					$('#access_granted_download').attr('download',data.download);
-					document.getElementById('access_granted_download').click();
-					location.href = '/home';
-				}else{
-					$.notify({
-						message: data.message
-					},{
-						type: 'danger',
-						allow_dismiss: true,
-						newest_on_top: false,
-						showProgressbar: false,
-						position: null,
-						placement: {
-							from: "bottom",
-							align: "left"
-						},
-						offset: 20,
-						spacing: 10,
-						z_index: 999999,
-					});
-				}
-			},
-			error:function(data){
+	event.preventDefault();
 
+	dados = Object();
+
+	dados['_token'] = $('input[name=_token]').val();
+	dados['method'] = "POST";
+	dados['personal_access_code'] = personal_access_code;
+
+	$.ajaxSetup({
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		}
+	});
+	$.ajax({
+		url: "users/verifyPersonalAcessToken",
+		method:"POST",
+		data: dados,
+		dataType: "json",
+		success: function(data,statusText,response){
+
+			if(response.status == 200){
 				$.notify({
-					message: 'Não autorizado.'
+					message: data.message
+				},{
+					type: 'success',
+					allow_dismiss: true,
+					newest_on_top: false,
+					showProgressbar: false,
+					position: null,
+					placement: {
+						from: "bottom",
+						align: "left"
+					},
+					offset: 20,
+					spacing: 10,
+					z_index: 999999,
+				});
+				$('#access_granted_download').attr('href',data.file_url);
+				$('#access_granted_download').attr('download',data.download);
+				document.getElementById('access_granted_download').click();
+				setTimeout(function(){
+					location.href = '/home';
+				}, 1300);
+			}else{
+				$.notify({
+					message: data.message
 				},{
 					type: 'danger',
 					allow_dismiss: true,
@@ -371,15 +362,37 @@
 					spacing: 10,
 					z_index: 999999,
 				});
-				setTimeout(function(){
-					location.href = '/home';
-				}, 20000);
-				
 			}
-		});
 
 
-		$('#personal_access_code').val('');
+		},
+		error:function(data){
+
+			$.notify({
+				message: 'Não autorizado.'
+			},{
+				type: 'danger',
+				allow_dismiss: true,
+				newest_on_top: false,
+				showProgressbar: false,
+				position: null,
+				placement: {
+					from: "bottom",
+					align: "left"
+				},
+				offset: 20,
+				spacing: 10,
+				z_index: 999999,
+			});
+			setTimeout(function(){
+				location.href = '/home';
+			}, 1300);
+
+		}
 	});
+
+
+	$('#personal_access_code').val('');
+});
 </script>
 @endsection
