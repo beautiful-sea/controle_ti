@@ -30,6 +30,10 @@ class AuthServiceProvider extends ServiceProvider
             return $user->role == 2;
         });
 
+        Gate::define('RECEPCAO',function($user){
+            return $user->role == 2 || $user->role == 3;
+        });
+
         Gate::define('ADMIN',function($user){
             return $user->role == 0;
         });

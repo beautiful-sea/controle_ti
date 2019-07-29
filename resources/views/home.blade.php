@@ -155,6 +155,28 @@
 
 	<div class="row">
 
+		@if(auth()->user()->armario)
+		<div class="col-sm-6 col-md-3">
+			<div class="card card-stats card-round">
+				<div class="card-body ">
+					<div class="row">
+						<div class="col-5">
+							<div class="icon-big text-center icon-secondary bubble-shadow-small">
+								<i class="flaticon-round"></i>
+							</div>
+						</div>
+						<div class="col col-stats">
+							<div class="numbers">
+								<p class="card-category">Armário</p>
+								<h4 class="card-title">{!!auth()->user()->armario->numero!!}</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		@endif
+
 		@if(isset(auth()->user()->equipamento->etiqueta))
 		<div class="col-sm-6 col-md-3">
 			<div class="card card-stats card-round">
@@ -219,6 +241,8 @@
 				</div>
 			</div>
 		</div>
+
+		
 
 	</div>
 

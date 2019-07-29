@@ -1,4 +1,11 @@
-
+<header>
+    <script>
+        window.Laravel = <?php echo json_encode([
+            'csrfToken' => csrf_token(),
+            'base_url'  => \URL::to('/'),
+        ]); ?>
+    </script>
+</header>
 <div id="app">
     <div class="card">
         <div class="card-body">
@@ -19,7 +26,6 @@
             'color': 'required',
         }
     });
-
 </script>
 
 @endsection

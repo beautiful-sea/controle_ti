@@ -88,9 +88,6 @@
             'usuario': {
                 'required': true,
             },
-            'equipamento_id': {
-                'required': true,
-            },
             'setor_id': {
                 'required': true,
             },

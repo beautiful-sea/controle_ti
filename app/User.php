@@ -14,6 +14,7 @@ class User extends Authenticatable
     const ROLE_ADMIN = 0;
     const ROLE_COMMON = 1;
     const ROLE_RH = 2;
+    const ROLE_RECEPCAO = 3;
 
     /**
      * The attributes that are mass assignable.
@@ -24,7 +25,7 @@ class User extends Authenticatable
         'name', 'usuario', 'password', 'role','equipamento_id','setor_id','personal_access_code'
     ];
 
-    protected $with = ['equipamento','setor'];
+    protected $with = ['equipamento','setor','armario'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -59,6 +60,7 @@ class User extends Authenticatable
             self::ROLE_ADMIN => 'Administrador',
             self::ROLE_COMMON => 'Comum',
             self::ROLE_RH => 'RH',
+            self::ROLE_RECEPCAO => 'Recepção'
         ];
     }
 
@@ -77,4 +79,9 @@ class User extends Authenticatable
     public function setor(){
         return $this->hasOne('App\Setor','id','setor_id');
     }
+
+    public function armario(){
+        return $this->hasOne('App\Armario','usuarios_id','id');
+    }
+
 }

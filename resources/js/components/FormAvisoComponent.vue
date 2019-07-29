@@ -112,7 +112,7 @@
         props:['aviso','setores'],
         mounted(){
             // Enable pusher logging - don't include this in production
-    Pusher.logToConsole = true;
+            Pusher.logToConsole = true;
         },
         data: function(){
             return {
@@ -138,46 +138,45 @@
                     return;
                 var aviso = Object();
 
-                aviso['titulo'] = this.titulo;
-                aviso['descricao']  =   this.descricao;
-                aviso['color']    =   this.cor;
-                aviso['data_fim']   =   this.aviso.data_fim;
-                aviso['data_inicio']   =   this.aviso.data_inicio;
-                aviso['setor_id']   =   this.aviso.setor_id;
+                //Dados que serão enviados
+                var data = {
+                    titulo          : this.titulo,
+                    descricao       :   this.descricao,
+                    color           :   this.cor,
+                    data_fim        :   this.aviso.data_fim,
+                    data_inicio     :   this.aviso.data_inicio,
+                    setor_id        :   this.aviso.setor_id,
+                    _method         : ''
+                }
 
-                console.log(aviso);
-                axios.post('/avisos', {
-                    aviso
-                }).then( response => {
-                    if(response.data) { 
-                        console.log(response.data);
-                    }
-                })
-            },
-            listenEvent() {
 
-  
-                Echo.channel('avisos')
-                .listen('AvisoCadastrado', aviso => {
-                    if (! ('Notification' in window)) {
-                        alert('Web Notification is not supported');
-                        return;
-                    }
-                    Notification.requestPermission( permission => {
+                var url_atual = window.location.href;
 
-                        let notification = new Notification('New post alert!', {
-                            body: aviso.aviso.titulo
-                        });
-
-                        notification.onclick = () => {
-                            window.open(window.location.href);
-                        };
+                if(!url_atual.match(/edit/)){//Se a url não for de editar, será de cadastro
+                    var url_atual = url_atual.replace('/create', '');
+                    url_atual = '/avisos';
+                    data._method = 'post';
+                    axios.post(url_atual, data).then( response => {
+                        if(response.data) { 
+                            window.location.href= '/avisos';
+                        }
+                    }).catch(function (error) {
+                        // console.log(error);
                     });
-                });
+                }else{
+                    var url_atual = url_atual.replace('/edit', '');
+                    data._method = 'patch';
+
+                    axios.post(url_atual, data).then( response => {
+                        if(response.data) { 
+                            window.location.href= '/avisos';
+                        }
+                    }).catch(function (error) {
+                        // console.log(error);
+                    });
+                }
+
             }
-        },
-        created() {
-            this.listenEvent();
-        },
+        }
     }
 </script>

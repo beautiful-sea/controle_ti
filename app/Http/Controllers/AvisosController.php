@@ -52,12 +52,12 @@ class AvisosController extends Controller
         try{
             $aviso = new Aviso;
 
-            $aviso->fill($request->all()['aviso']);
+            $aviso->fill($request->all());
 
             $aviso->save();
 
-                    // fire PostPublished event after post is successfully added to database
-            event(new AvisoCadastrado($aviso));
+
+            // event(new AvisoCadastrado($aviso));
 
             return response(200);
         }catch(Exception $e){

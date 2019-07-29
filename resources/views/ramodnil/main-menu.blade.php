@@ -99,6 +99,24 @@ $class = 'active show';
 </div>
 </li>
 
+
+<!-- MENU ARMARIOS -->
+@can('RECEPCAO',App\User::class)
+@php
+$class = '';
+
+if ($controller == 'ArmariosController') {
+$class = 'active';
+}
+@endphp
+
+<li class="nav-item {{ $class }}">
+    <a href="{{ route('armarios.index') }}" class="nav-link ">
+        <i class="fas fa-th-large"></i>
+        <p>Armários</p>
+    </a>
+</li>
+@endcan
 <!-- MENU RAMAIS -->
 
 @php

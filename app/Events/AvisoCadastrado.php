@@ -10,6 +10,9 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use App\Aviso;
+use App\Setor;
+
+
 class AvisoCadastrado implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
@@ -29,9 +32,9 @@ class AvisoCadastrado implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'aviso' => $this->aviso,
-      ];
-  }
+            'aviso' => $this->buscaESubstituiComandosNoAviso($this->aviso),
+        ];
+    }
 
     /**
      * Get the channels the event should broadcast on.
@@ -41,6 +44,20 @@ class AvisoCadastrado implements ShouldBroadcast
     public function broadcastOn()
     {
         return new Channel('avisos');
+    }
+
+    public function buscaESubstituiComandosNoAviso($aviso){
+        $aviso->titulo = str_replace('{SETOR}', Setor::find(auth()->user()->setor_id)->name, $aviso->titulo);
+        
+        $aviso->descricao = str_replace('{SETOR}', Setor::find(auth()->user()->setor_id)->name, $aviso->descricao);
+
+        $nome_usuario = explode(' ',auth()->user()->name);
+        $aviso->titulo = str_replace('{COLABORADOR}', $nome_usuario[0], $aviso->titulo);
+
+        $nome_usuario = explode(' ',auth()->user()->name);
+        $aviso->descricao = str_replace('{COLABORADOR}', $nome_usuario[0], $aviso->descricao);
+
+        return $aviso;
     }
 
 }

@@ -7,7 +7,7 @@
 	<title>Portal BRVAL</title>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 
 	<link rel="stylesheet" href="{{ asset('css/app.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/azzara.min.css') }}">
@@ -59,7 +59,32 @@
 
 	<!-- Azzara JS -->
 	<script src="{{asset('js/ready.min.js')}}"></script>
+	
+	<!-- Notificações Pusher -->
+	<script type="text/javascript">
+		$(document).ready(function(){
+			Echo.channel('avisos')
+			.listen('AvisoCadastrado', aviso => {
+				if (! ('Notification' in window)) {
+					alert('Web Notification is not supported');
+					return;
+				}
+				console.log('aqui foi');
+				Notification.requestPermission( permission => {
+
+					let notification = new Notification('Novo post cadastrado!!', {
+						body: aviso.aviso.titulo
+					});
+
+					notification.onclick = () => {
+						window.open(window.location.href = '/home');
+					};
+				});
+			});
+		});
+	</script>
 	@yield('adminlte_js')
+
 </body>
 
 </html>
