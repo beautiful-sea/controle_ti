@@ -21,7 +21,7 @@
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-hover" id="setor-list">
+            <table class="table table-hover table-striped" id="setor-list">
                 <thead>
                     <tr>
                         <th>Nome</th>

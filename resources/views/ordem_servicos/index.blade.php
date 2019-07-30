@@ -12,7 +12,7 @@
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-hover" id="ordem_servicos-list">
+            <table class="table table-hover table-striped" id="ordem_servicos-list">
                 <thead>
                     <tr>
                         <th>Equipamento</th>

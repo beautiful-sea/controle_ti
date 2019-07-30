@@ -21,7 +21,7 @@
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-hover" id="licencas-list">
+            <table class="table table-hover table-striped" id="licencas-list">
                 <thead>
                     <tr>
                         <th>Chave</th>

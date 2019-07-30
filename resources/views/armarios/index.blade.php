@@ -21,7 +21,7 @@
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-hover" id="armarios-list">
+            <table class="table table-hover table-striped" id="armarios-list">
                 <thead>
                     <tr>
                         <th>Número do Armário</th>
@@ -41,9 +41,10 @@
                 @endphp
         
                 <tr class="{{ $class }}">
-                    <td>{!! '<div class="badge badge-info">'.$u->numero.'</div>' !!}</td>
-                    <td>{!! (count($u->usuario) > 0 )?'<div class="badge badge-primary">'.$u->usuario->name.'</div>':'<div class="badge badge-danger">Vazio</div>' !!}</td>
-                    <td>{!! '<div class="badge badge-default">'.$u->local_string.'</div>' !!}</td>
+                    <td class="text-center">{!! '<div class="badge badge-info">'.$u->numero.'</div>' !!}</td>
+                    <td>{!! (count($u->usuario) > 0 )?$u->usuario->name:'<div class="badge badge-danger">Vazio</div>' !!}</td>
+                    <td>{!! ($u->local == 1)?'<div class="badge badge-default">'.$u->local_string.'</div>':
+                    '<div class="badge badge-secondary">'.$u->local_string.'</div>' !!}</td>
 
                     <td>
                         <div class="table-actions">

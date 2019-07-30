@@ -16,7 +16,7 @@
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-hover" id="ramal-list">
+            <table class="table table-hover table-striped" id="ramal-list">
                 <thead>
                     <tr>
                         <th>Ramal</th>
@@ -28,8 +28,8 @@
                     @foreach($ramais as $u)
 
                     <tr class="">
-                        <td>{!! '<div class="badge badge-primary">'.$u->ramal.'</div>'  !!}</td>
-                        <td>{!! '<div class="badge badge-primary">'.App\Setor::find($u->setor_id)->name.'</div>'  !!}</td>
+                        <td>{!! $u->ramal  !!}</td>
+                        <td>{!! App\Setor::find($u->setor_id)->name  !!}</td>
                         <td>
                             <div class="table-actions">
                                 @can('edit', $u)
