@@ -116,14 +116,19 @@ class OrdemServicosController extends Controller
      */
     public function update(Request $request, OrdemServico $ordem_servico)
     {
-        $request['cadastrante_id'] = auth()->user()->id;
+        if(auth()->user()->role != 0){//Se quem estiver atualizando a ordem de serviço não for o suporte
+            $request['cadastrante_id'] = auth()->user()->id;
+        }
 
         $ordem_servico->fill($request->all());
-
 
         if ($request->hasFile('arquivo')) {
             $extension = $request->file('arquivo')->getClientOriginalExtension();
             $ordem_servico->img_extension = $extension;
+        }
+
+        if($ordem_servico->status == 3){//Se o novo status for resolvido, setar a data atual
+            $ordem_servico['resolucao'] = date('Y-m-d H:i:s');
         }
 
         $ordem_servico->save();
@@ -141,7 +146,7 @@ class OrdemServicosController extends Controller
     {
         $ordem_servico = OrdemServico::find($id);
 
-        $ordem_servico->status = $status;
+        $ordem_servico['status'] = $request->status;
 
         if($ordem_servico->status == 3){
             $ordem_servico['resolucao'] = date('Y-m-d H:i:s');

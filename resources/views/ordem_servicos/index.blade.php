@@ -1,7 +1,6 @@
 @extends('ramodnil.page')
 
 
-
 @section('content')
 <div class="my-2">
 
@@ -43,17 +42,19 @@
                     <td>{!!date("d/m/Y",strtotime($u->created_at))!!}</td>
 
                     <td>
-                        <div class="table-actions row">
+                        <div class="table-actions  d-flex align-items-stretch">
                             @php
                             $u['statusFormated'] = \App\OrdemServico::getStatusFormated($u->status);
+                            $u['tipo_manutencao'] = (isset($u['tipo_manutencao']))?\App\OrdemServico::tipos()[$u['tipo_manutencao']]:'Não Cadastrado';
                             @endphp
-                            <button onclick="setDetalhes({{$u}})" style="margin-right: 5px" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Detalhes</button>
+                            <button onclick="setDetalhes({{$u}})" style="margin-right: 5px" class="btn btn-outline-primary btn-sm h-100" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-list"></i></button>
+
                             @can('edit', $u)
-                            <div class="btn-group" style="margin-right: 5px">
-                              <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <div class="btn-group h-100" style="margin-right: 5px">
+                              <button type="button" class="btn btn-outline-info btn-sm " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-sync-alt"></i>
-                                Atualizar
                             </button>
+
                             <div class="dropdown-menu" style="z-index: 10">
                                 @php
                                 $u->status = 0 
@@ -78,12 +79,19 @@
                                 <a href="{{ route('ordem_servicos.change_status', ['ordem_servicos' => $u,'status'  =>  4]) }}" class="dropdown-item">{!! html_entity_decode(\App\OrdemServico::getStatusInText(4)) !!}</a>
                             </div>
                         </div>
-
                         @endcan
-                        <a href="{{ route('ordem_servicos.edit', ['ordem_servico' => $u]) }}" class="btn btn-default btn-sm"><i class="fa fa-pencil-alt"></i> Editar</a>
-
+                        <a href="{{ route('ordem_servicos.edit', ['ordem_servico' => $u]) }}" class="btn btn-outline-dark btn-sm h-100"><i class="fa fa-pencil-alt"></i> </a>
+                        
+                        @if($u->status == 3)
+                        <form action="/ordem_servicos/{{$u->id}}" method="POST">
+                            @method('PUT')
+                            @csrf
+                            <input type="hidden" name="status" value="4">
+                            <button style="margin-right: 5px" class="btn btn-outline-secondary btn-sm h-100" type="submit">Reabrir</button>
+                        </form>
+                        @endif
                         @can('destroy', $u)
-                        {{ Html::deleteLink('Excluir', route('ordem_servicos.destroy', ['user' => $u]), ['button_class' => 'btn btn-danger btn-sm confirmable', 'icon' => 'trash']) }}
+                        {{ Html::deleteLink('', route('ordem_servicos.destroy', ['user' => $u]), ['button_class' => 'btn btn-outline-danger btn-sm confirmable', 'icon' => 'trash']) }}
                         @endcan
                     </div>
                 </td>
@@ -96,7 +104,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-                <img style="width: 100%" src="public/files/ordem_servico/1.jpg" id="img_modal" class="img-responsive">
+                <a id="link_img_modal" href="#" target="_blank" data-toggle="tooltip" data-placement="top" title="Clique na imagem para visualizar em tela cheia"><img style="width: 100%; height: 100%;" src="public/files/ordem_servico/1.jpg" id="img_modal" class="img-responsive"></a>
             </div>
         </div>
     </div>
@@ -115,10 +123,24 @@
 
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label><h4>Serviço Executado:</h4></label>
-                            <textarea name="servico_executado" id="servico_executado-modal" class="form-control" cols="30" rows="10"></textarea>
+                            <label><h5>Serviço Executado:</h5></label>
+                            <textarea name="servico_executado" id="servico_executado-modal" class="form-control" cols="30" rows="5"></textarea>
                         </div>
                     </div>
+                    
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label><h5>Tipo de Manutenção:</h5></label>
+                            <select class="form-control select-2" name="tipo_manutencao">
+                                @foreach(App\OrdemServico::tipos() as $key => $value)
+                                <option value="{{$key}}">{{ $value }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="status" value="3">
+
 
                 </div>
 
@@ -215,6 +237,14 @@
                 <div id="status-modal"></div>
             </div>
         </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Tipo de Manutenção:</label><br>
+                <div class="badge badge-info" id="tipo_manutencao-modal"></div>
+            </div>
+        </div>
+
     </div>
 
 </div>
@@ -238,6 +268,7 @@
 
     function setImageModal(id,extension){
         $('#img_modal').attr("src", "/files/ordem_servico/"+id+"."+extension);
+        $('#link_img_modal').attr("href", "/files/ordem_servico/"+id+"."+extension);
     }
 
     function setServicoExecutado(os){
@@ -255,8 +286,9 @@
         $('#descricao-modal').val(os.descricao);
         $('#servico-executado-modal').val(os.servico_executado);
         $('#status-modal').html(os.statusFormated);
+        $('#tipo_manutencao-modal').html(os.tipo_manutencao);
         $('#criado-modal').val(moment(os.created_at).format('DD/MM/Y H:m:ss',true));
-        $('#resolucao-modal').val(moment(os.resolucao).format('DD/MM/Y H:m:ss',true));
+        $('#resolucao-modal').val((os.resolucao)?moment(os.resolucao).format('DD/MM/Y H:m:ss',true):'Não resolvido');
     }
 
 </script>

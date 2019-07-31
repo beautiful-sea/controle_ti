@@ -36,11 +36,11 @@
                         <td>
                             <div class="table-actions">
                                 @can('edit', $u)
-                                <a href="{{ route('setores.edit', ['setor' => $u]) }}" class="btn btn-default btn-sm"><i class="fa fa-pencil-alt"></i> Editar</a>
+                                <a href="{{ route('setores.edit', ['setor' => $u]) }}" class="btn btn-outline-dark btn-sm"><i class="fa fa-pencil-alt"></i> Editar</a>
                                 @endcan
 
                                 @can('destroy', $u)
-                                {{ Html::deleteLink('Excluir', route('setores.destroy', ['setor' => $u]), ['button_class' => 'btn btn-danger btn-sm confirmable', 'icon' => 'trash']) }}
+                                {{ Html::deleteLink('Excluir', route('setores.destroy', ['setor' => $u]), ['button_class' => 'btn btn-outline-danger btn-sm confirmable', 'icon' => 'trash']) }}
                                 @endcan
                             </div>
                         </td>

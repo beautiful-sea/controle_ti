@@ -33,69 +33,72 @@
                 <tbody>
                     @foreach($licencas as $u)
 
-                <tr>
-                    <td>{!! $u->chave !!}</td>
-                    <td>{!! '<div class="badge badge-secondary">'.App\Produto::find($u->produto_id)->nome.'</div>' !!}</td>
-                    <td>{!! ($u->equipamento_id)?('<div class="badge badge-primary">'.App\Equipamento::find($u->equipamento_id)->etiqueta.'</div>'):'<div class="badge badge-danger">Nenhum</div>'!!}</td>
-                    <td>
-                        <div class="table-actions">
-                            @can('add', $u)
-                            <a onclick="setLicenca({{$u}})" class="btn btn-default btn-sm" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Computador</a>
-                            @endcan
+                    <tr>
+                        <td>{!! $u->chave !!}</td>
+                        <td>{!! '<div class="badge badge-secondary">'.App\Produto::find($u->produto_id)->nome.'</div>' !!}</td>
+                        <td>{!! ($u->equipamento_id)?('<div class="badge badge-primary">'.App\Equipamento::find($u->equipamento_id)->etiqueta.'</div>'):'<div class="badge badge-danger">Nenhum</div>'!!}</td>
+                        <td>
+                            <div class="table-actions">
+                                @can('add', $u)
+                                <a onclick="setLicenca({{$u}})" class="btn btn-outline-dark btn-sm" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Computador</a>
+                                @endcan
 
-                            @can('edit', $u)
-                            <a href="{{ route('licencas.edit', ['licenca' => $u]) }}" class="btn btn-default btn-sm"><i class="fa fa-pencil-alt"></i> Editar</a>
-                            @endcan
+                                @can('edit', $u)
+                                <a href="{{ route('licencas.edit', ['licenca' => $u]) }}" class="btn btn-outline-dark btn-sm"><i class="fa fa-pencil-alt"></i> Editar</a>
+                                @endcan
 
-                            @can('destroy', $u)
-                            {{ Html::deleteLink('Excluir', route('licencas.destroy', ['user' => $u]), ['button_class' => 'btn btn-danger btn-sm confirmable', 'icon' => 'trash']) }}
-                            @endcan
-                        </div>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Modal -->
-    {{ Form::open(['id' => 'licenca-form']) }}
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Atribuir liçenca a um computador</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-          </button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-            <label>Liçenca</label>
-            <input type="text" class="form-control" id="licenca-modal" disabled="" name="licenca" value="">
-            <input type="hidden" class="form-control" id="licenca-id" disabled="" name="licencas_id" value="">
-
-        </div>
-        
-        <div class="form-group">
-            <label>Equipamento</label>
-            <select name="equipamento_id" class="form-control select-2">
-                <option value=""></option>
-                @foreach(App\Equipamento::all() as $p)
-                <option value="{{$p->id}}">{{$p->etiqueta}}</option>
-                @endforeach
-            </select>
+                                @can('destroy', $u)
+                                {{ Html::deleteLink('Excluir', route('licencas.destroy', ['user' => $u]), ['button_class' => 'btn btn-outline-danger btn-sm confirmable', 'icon' => 'trash']) }}
+                                @endcan
+                            </div>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
 
+        <!-- Modal -->
+        <form method="post" action="" id="form-equipamento_licenca">
+            @method('PUT')
+            @csrf
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Atribuir liçenca a um computador</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                    <label>Liçenca</label>
+                    <input type="text" class="form-control" id="licenca-modal" disabled="" name="licenca" value="">
+                    <input type="hidden" class="form-control" id="licenca-id" disabled="" name="id" value="">
+
+                </div>
+
+                <div class="form-group">
+                    <label>Equipamento</label>
+                    <select name="equipamento_id" class="form-control select-2">
+                        <option value=""></option>
+                        @foreach(App\Equipamento::all() as $p)
+                        <option value="{{$p->id}}">{{$p->etiqueta}}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                {{ Form::bsSubmit('Salvar') }}
+            </div>
+        </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-        {{ Form::bsSubmit('Salvar') }}
-    </div>
 </div>
-</div>
-</div>
-{{ Form::close() }}
+</form>
 
 
 </div>
@@ -110,6 +113,7 @@
         console.log(licenca);
         $('#licenca-modal').val(licenca.chave);
         $('#licenca-id').val(licenca.id);
+        $('#form-equipamento_licenca').attr('action','/licencas/'+licenca.id);
     }
 </script>
 @stop

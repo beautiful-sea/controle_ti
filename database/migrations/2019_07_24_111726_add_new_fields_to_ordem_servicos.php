@@ -26,7 +26,7 @@ class AddNewFieldsToOrdemServicos extends Migration
     public function down()
     {
         Schema::table('ordem_servicos', function (Blueprint $table) {
-            //
+            $table->dropColumn('servico_executado');
         });
     }
 }

@@ -15,8 +15,14 @@ class ArmariosController extends Controller
      */
     public function index()
     {
+        
+
+        $armarios_vazios = Armario::getVazios();
+
+        // dd($armarios_vazios);
         return view('armarios.index',[
-            'armarios'  =>  Armario::all()
+            'armarios'                      =>  Armario::all(),
+            'armarios_vazios'               =>  $armarios_vazios
         ]);
     }
 

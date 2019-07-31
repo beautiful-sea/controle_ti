@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddNewFieldToLicencas extends Migration
+class AddTipoManutencaoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddNewFieldToLicencas extends Migration
      */
     public function up()
     {
-        Schema::table('licencas', function (Blueprint $table) {
-            $table->unsignedBigInteger('equipamento_id')->nullable();
+        Schema::table('ordem_servicos', function (Blueprint $table) {
+            $table->integer('tipo_manutencao')->nullable();
         });
     }
 
@@ -25,8 +25,8 @@ class AddNewFieldToLicencas extends Migration
      */
     public function down()
     {
-        Schema::table('licencas', function (Blueprint $table) {
-            $table->dropColumn('equipamento_id');
+        Schema::table('ordem_servicos', function (Blueprint $table) {
+            $table->dropColumn('tipo_manutencao');
         });
     }
 }

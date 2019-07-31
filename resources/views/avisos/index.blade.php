@@ -49,11 +49,11 @@
                     <td>
                         <div class="table-actions">
                             @can('avisar',\App\User::class)
-                            <a href="{{ route('avisos.edit', ['aviso' => $u]) }}" class="btn btn-default btn-sm"><i class="fa fa-pencil-alt"></i> Editar</a>
+                            <a href="{{ route('avisos.edit', ['aviso' => $u]) }}" class="btn btn-outline-dark btn-sm"><i class="fa fa-pencil-alt"></i> Editar</a>
                             @endcan
 
                             @can('avisar',\App\User::class)
-                            {{ Html::deleteLink('Excluir', route('avisos.destroy', ['user' => $u]), ['button_class' => 'btn btn-danger btn-sm confirmable', 'icon' => 'trash']) }}
+                            {{ Html::deleteLink('Excluir', route('avisos.destroy', ['user' => $u]), ['button_class' => 'btn btn-outline-danger btn-sm confirmable', 'icon' => 'trash']) }}
                             @endcan
                         </div>
                     </td>

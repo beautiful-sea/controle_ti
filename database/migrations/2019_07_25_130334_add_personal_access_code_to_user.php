@@ -26,7 +26,7 @@ class AddPersonalAccessCodeToUser extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            $table->dropColumn('personal_access_code');
         });
     }
 }

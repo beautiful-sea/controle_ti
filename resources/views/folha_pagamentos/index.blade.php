@@ -39,16 +39,16 @@
                     <td>{{ App\User::find($u->usuarios_id)->name }}</td>
                     <td>{{ date("d/m/Y",strtotime($u->periodo)) }}</td>
                     <td> 
-                       <a id="download_folha_pagamento" onclick="download_folha_pagamento('{{date("d/m/Y",strtotime($u->periodo))}}')" href='javascript:void(0)' target="_blank" class="btn btn-primary" >Baixar</a> </td>
+                       <a id="download_folha_pagamento" onclick="download_folha_pagamento('{{date("d/m/Y",strtotime($u->periodo))}}')" href='javascript:void(0)' target="_blank" class="btn btn-outline-primary btn-sm" >Baixar</a> </td>
 
                        <td>
                         <div class="table-actions">
                             @can('RH',App\User::class)
-                            <a href="{{ route('folha_pagamentos.edit', ['folha_pagamento' => $u]) }}" class="btn btn-default btn-sm"><i class="fa fa-pencil-alt"></i> Editar</a>
+                            <a href="{{ route('folha_pagamentos.edit', ['folha_pagamento' => $u]) }}" class="btn btn-outline-dark btn-sm"><i class="fa fa-pencil-alt"></i> Editar</a>
                             @endcan
 
                             @can('RH',App\User::class)
-                            {{ Html::deleteLink('Excluir', route('folha_pagamentos.destroy', ['user' => $u]), ['button_class' => 'btn btn-danger btn-sm confirmable', 'icon' => 'trash']) }}
+                            {{ Html::deleteLink('Excluir', route('folha_pagamentos.destroy', ['user' => $u]), ['button_class' => 'btn btn-outline-danger btn-sm confirmable', 'icon' => 'trash']) }}
                             @endcan
                         </div>
                     </td>

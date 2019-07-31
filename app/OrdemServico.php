@@ -6,11 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class OrdemServico extends Model
 {
-    protected $fillable = ['equipamento_id','usuario_id','cadastrante_id','setor_id','descricao','resolucao','status','servico_executado'];
+    protected $fillable = ['equipamento_id','usuario_id','cadastrante_id','setor_id','descricao','resolucao','status','servico_executado','tipo_manutencao'];
 
     protected $table = 'ordem_servicos';
 
     protected $with =['equipamento','cadastrante','setor','usuario'];
+
+    const TYPE_CORRETIVA = 0;
+    const TYPE_PREVENTIVA = 1;
+    const TYPE_REMANEJAMENTO = 2;
+    const TYPE_DESCARTE = 3;
 
     public static function getStatusInText($status){
 
@@ -34,6 +39,19 @@ class OrdemServico extends Model
     			return 'Solicitada';
     			break;
     	}
+    }
+
+    public static function tipos(){
+        return [
+            self::TYPE_CORRETIVA => 'Corretiva',
+            self::TYPE_PREVENTIVA => 'Preventiva',
+            self::TYPE_REMANEJAMENTO => 'Remanejamento',
+            self::TYPE_DESCARTE => 'Descarte'
+        ];
+    }
+
+    public function getStringTipoManutencao(){
+        return self::tipos()[$this->tipo];
     }
 
     public static function getStatusFormated($status){

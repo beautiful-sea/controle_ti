@@ -51,26 +51,26 @@
                     <td>
                         <div class="table-actions">
                             @can('edit', $u)
-                            <a href="{{ route('users.edit', ['user' => $u]) }}" class="btn btn-default btn-sm"><i class="fa fa-pencil-alt"></i> Editar</a>
+                            <a href="{{ route('users.edit', ['user' => $u]) }}" class="btn btn-outline-dark btn-sm"><i class="fa fa-pencil-alt"></i></a>
                             @endcan
 
                             @if (!$u->locked)
                             @can('block', $u)
                             @if ($u->id != Auth::user()->id)
-                            <a href="{{ route('users.block', ['user' => $u]) }}" class="btn btn-default btn-sm confirmable"><i class="fa fa-lock"></i> Bloquear</a>
+                            <a href="{{ route('users.block', ['user' => $u]) }}" class="btn btn-outline-dark btn-sm confirmable"><i class="fa fa-lock"></i></a>
                             @endif
                             @endcan
                             @else
                             @can('unblock', $u)
                             @if ($u->id != Auth::user()->id)
-                            <a href="{{ route('users.unblock', ['user' => $u]) }}" class="btn btn-default btn-sm confirmable"><i class="fa fa-lock-open"></i> Desbloquear</a>
+                            <a href="{{ route('users.unblock', ['user' => $u]) }}" class="btn btn-outline-dark btn-sm confirmable"><i class="fa fa-lock-open"></i></a>
                             @endif
                             @endcan
                             @endif
 
                             @can('destroy', $u)
                             @if ($u->id != Auth::user()->id)
-                            {{ Html::deleteLink('Excluir', route('users.destroy', ['user' => $u]), ['button_class' => 'btn btn-danger btn-sm confirmable', 'icon' => 'trash']) }}
+                            {{ Html::deleteLink('', route('users.destroy', ['user' => $u]), ['button_class' => 'btn btn-outline-danger btn-sm confirmable', 'icon' => 'trash']) }}
                             @endif
                             @endcan
                         </div>
