@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\OrdemServico;
+use App\Events\OrdemServicoCadastrada;
 use App\User;
 use Illuminate\Http\Request;
 use App\Notifications\CreatedOrdemServico;
@@ -66,6 +67,7 @@ class OrdemServicosController extends Controller
 
         $ordem_servico->save();
 
+        event(new OrdemServicoCadastrada($ordem_servico));
 
         if ($request->hasFile('arquivo')) {
             $request->file('arquivo')->move(base_path('/public/files/ordem_servico'), sprintf('%s.%s', $ordem_servico->id, $extension));

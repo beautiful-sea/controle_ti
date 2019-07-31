@@ -11,6 +11,6 @@
 |
 */
 
-Broadcast::channel('App.User.*', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+Broadcast::channel('ordem_servicos', function ($ordem_servico) {
+    return (auth()->user()->role == 0);
 });

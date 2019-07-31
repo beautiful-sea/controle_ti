@@ -9,8 +9,8 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-
-class OrdemServicoCadastrada
+use App\User;
+class OrdemServicoCadastrada implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -33,12 +33,13 @@ class OrdemServicoCadastrada
      */
     public function broadcastOn()
     {
-        return new Channel('ordem_servicos');
+        return new PrivateChannel('ordem_servicos');
     }
 
     public function broadcastWith() {
         return [
-            'usuario' => App\User::find($this->ordem_servico->usuario_id)->name,
+            'usuario' => User::find($this->ordem_servico->usuario_id)->name,
+            'ordem_servico' =>  $this->ordem_servico
       ];
   }
 }

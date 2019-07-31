@@ -63,21 +63,20 @@
 	<!-- Notificações Pusher -->
 	<script type="text/javascript">
 		$(document).ready(function(){
-			Echo.channel('avisos')
-			.listen('AvisoCadastrado', aviso => {
+			Echo.private('ordem_servicos')
+			.listen('OrdemServicoCadastrada', data => {
 				if (! ('Notification' in window)) {
-					alert('Web Notification is not supported');
+					alert('Seu navegador não suporta notificações');
 					return;
 				}
-				console.log('aqui foi');
 				Notification.requestPermission( permission => {
 
-					let notification = new Notification('Novo post cadastrado!!', {
-						body: aviso.aviso.titulo
+					let notification = new Notification(data.usuario+' está solicitando o suporte', {
+						body: data.ordem_servico.descricao
 					});
 
 					notification.onclick = () => {
-						window.open(window.location.href = '/home');
+						window.open(window.location.href = ('/ordem_servicos/'+data.ordem_servico.id+'/edit'));
 					};
 				});
 			});
