@@ -156,12 +156,12 @@
 	<div class="row">
 
 		@if(auth()->user()->armario)
-		<div class="col-sm-6 col-md-3">
+		<div class="col-sm-6 col-md-6 col-lg-4">
 			<div class="card card-stats card-round">
 				<div class="card-body ">
 					<div class="row">
 						<div class="col-5">
-							<div class="icon-big text-center icon-secondary bubble-shadow-small">
+							<div class="icon-big text-center icon-success bubble-shadow-small">
 								<i class="flaticon-round"></i>
 							</div>
 						</div>
@@ -178,7 +178,7 @@
 		@endif
 
 		@if(isset(auth()->user()->equipamento->etiqueta))
-		<div class="col-sm-6 col-md-3">
+		<div class="col-sm-6 col-md-6 col-lg-4">
 			<div class="card card-stats card-round">
 				<div class="card-body ">
 					<div class="row">
@@ -200,7 +200,7 @@
 		@endif
 
 		@if(isset(auth()->user()->setor->name))
-		<div class="col-sm-6 col-md-3">
+		<div class="col-sm-6 col-md-6 col-lg-4">
 			<div class="card card-stats card-round">
 				<div class="card-body ">
 					<div class="row">
@@ -222,7 +222,7 @@
 		@endif
 
 
-		<div class="col-sm-6 col-md-3">
+		<div class="col-sm-6 col-md-6 col-lg-4">
 			<div class="card card-stats card-round">
 				<div class="card-body ">
 					<div class="row">
