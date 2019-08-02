@@ -264,7 +264,24 @@ $class = 'active';
 </div>
 </li>
 
+<!-- MENU RELATORIOS -->
 
+@can('ADMIN')
+@php
+$class = '';
+
+if ($controller == 'RelatoriosOSController') {
+$class = 'active';
+}
+@endphp
+
+<li class="nav-item {{ $class }}">
+    <a href="{{ route('relatorios.index') }}" class="nav-link ">
+        <i class="fas fa-file-alt"></i>
+        <p>Relatórios</p>
+    </a>
+</li>
+@endcan
 <!-- MENU CONFIGURAÇÕES -->
 
 @php

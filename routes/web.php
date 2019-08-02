@@ -15,14 +15,17 @@ Route::get('/','HomeController@index')->name('home') ;
 
 Auth::routes();
 
-
-
+// ROTAS CONFIGURADAS MANUALMENTE
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/faq','FaqController@index')->name('faq');
 Route::post('/users/verifyPersonalAcessToken','UsersController@verifyPersonalAcessToken');
 Route::get('/ordem_servicos/{id}/change_status/{status}', 'OrdemServicosController@changeStatus')->name('ordem_servicos.change_status');
 
+//ROTAS DE RELATORIOS
+Route::post('/relatorio', 'ReportController@index')->middleware('can:ADMIN');//Rota para gerar relatorio a partir dos parametros
 
+
+//ROTAS GERADAS COM RESOURCES
 Route::resource('equipamentos', 'EquipamentosController')->middleware('can:index');
 Route::resource('licencas', 'LicencasController')->middleware('can:index');
 Route::resource('produtos', 'ProdutosController')->middleware('can:index');
@@ -31,9 +34,8 @@ Route::resource('ramais_valenca', 'RamaisValencaController');
 Route::resource('ramais_rj', 'RamaisRJController');
 Route::resource('ordem_servicos', 'OrdemServicosController');
 Route::resource('armarios', 'ArmariosController')->middleware('can:RECEPCAO');
-
-
 Route::resource('avisos', 'AvisosController');
+Route::resource('relatorios', 'RelatoriosController');
 Route::resource('folha_pagamentos', 'FolhaPagamentosController')->middleware('can:RH');
 
 \BeautifulSea\LaravelRamodnil\LaravelRamodnilServiceProvider::routes();
