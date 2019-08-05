@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\RamaisValenca;
 use Illuminate\Http\Request;
 use App\Setor;
+use App\User;
 
 class RamaisValencaController extends Controller
 {
@@ -33,9 +34,11 @@ class RamaisValencaController extends Controller
     public function create()
     {
         $setores = Setor::all();
+        $usuarios = User::all();
         return view('ramais_valenca.create',[
             'ramal'  =>  new RamaisValenca,
-            'setores'=> $setores
+            'setores'=> $setores,
+            'usuarios'  =>  $usuarios
         ]);
     }
 
@@ -76,10 +79,12 @@ class RamaisValencaController extends Controller
     public function edit(RamaisValenca $ramal,$id)
     {
         $setores = Setor::all();
+        $usuarios = User::all();
         $ramal = RamaisValenca::find($id);
         return view('ramais_valenca.edit',[
             'ramal'  =>  $ramal,
-            'setores'=>  $setores
+            'setores'=>  $setores,
+            'usuarios'  =>  $usuarios
         ]);
     }
 

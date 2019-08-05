@@ -21,6 +21,7 @@
                     <tr>
                         <th>Ramal</th>
                         <th>Setor</th>
+                        <th>Responsável</th>
                         <th data-orderable="false"></th>
                     </tr>
                 </thead>
@@ -30,6 +31,7 @@
                     <tr class="">
                         <td>{!! $u->ramal  !!}</td>
                         <td>{!! App\Setor::find($u->setor_id)->name  !!}</td>
+                        <td>{!! ($u->colaborador)?$u->colaborador->name:'<div class="badge badge-danger">Não Cadastrado</div>' !!}</td>
                         <td>
                             <div class="table-actions">
                                 @can('edit', $u)

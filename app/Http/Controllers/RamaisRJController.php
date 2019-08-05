@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\RamaisRJ;
 use Illuminate\Http\Request;
 use App\Setor;
+use App\User;
 
 class RamaisRJController extends Controller
 {
@@ -32,10 +33,12 @@ class RamaisRJController extends Controller
      */
     public function create()
     {
+        $usuarios = User::all();
         $setores = Setor::all();
         return view('ramais_rj.create',[
             'ramal'  =>  new RamaisRJ,
-            'setores'=> $setores
+            'setores'=> $setores,
+            'usuarios'  =>  $usuarios
         ]);
     }
 
@@ -75,11 +78,13 @@ class RamaisRJController extends Controller
      */
     public function edit(RamaisRJ $ramal,$id)
     {
+        $usuarios = User::all();
         $setores = Setor::all();
         $ramal = RamaisRJ::find($id);
         return view('ramais_rj.edit',[
             'ramal'  =>  $ramal,
-            'setores'=>  $setores
+            'setores'=>  $setores,
+            'usuarios'  =>  $usuarios
         ]);
     }
 
