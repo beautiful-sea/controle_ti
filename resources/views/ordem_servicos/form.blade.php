@@ -90,40 +90,6 @@ $disabled = ($ordem_servico->status != 0 && auth()->user()->role == 1)? "disable
 </div>
 </div>
 
-@if($action == 'edit')
-@can('edit', $ordem_servico)
-<div class="btn-group" style="margin-right: 5px">
-  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <i class="fa fa-sync-alt"></i>
-    Atualizar
-</button>
-<div class="dropdown-menu" style="z-index: 10">
-    @php
-    $ordem_servico->status = 0 
-    @endphp
-    <a href="{{ route('ordem_servicos.change_status', ['ordem_servicos' => $ordem_servico,'status'  =>  0]) }}" class="dropdown-item"> {!! html_entity_decode(\App\OrdemServico::getStatusInText(0)) !!}</a>
-    @php
-    $ordem_servico->status = 1 
-    @endphp
-    <a href="{{ route('ordem_servicos.change_status', ['ordem_servicos' => $ordem_servico,'status'  =>  1]) }}" class="dropdown-item">{!! html_entity_decode(\App\OrdemServico::getStatusInText(1)) !!}</a>
-    @php
-    $ordem_servico->status = 2 
-    @endphp
-    <a href="{{ route('ordem_servicos.change_status', ['ordem_servicos' => $ordem_servico,'status'  =>  2]) }}" class="dropdown-item"> {!! html_entity_decode(\App\OrdemServico::getStatusInText(2)) !!}</a>
-    @php
-    $ordem_servico->status = 3 
-    @endphp
-    <a href="{{ route('ordem_servicos.change_status', ['ordem_servicos' => $ordem_servico,'status'  =>  3]) }}" class="dropdown-item">{!! html_entity_decode(\App\OrdemServico::getStatusInText(3)) !!}</a>
-
-    @php
-    $ordem_servico->status = 4 
-    @endphp
-    <a href="{{ route('ordem_servicos.change_status', ['ordem_servicos' => $ordem_servico,'status'  =>  4]) }}" class="dropdown-item">{!! html_entity_decode(\App\OrdemServico::getStatusInText(4)) !!}</a>
-</div>
-</div>
-
-@endcan
-@endif
 {{ Form::bsSubmit('Salvar',['id'=>'salvar']) }}
 
 {{ Form::close() }}
