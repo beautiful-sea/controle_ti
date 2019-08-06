@@ -21,6 +21,15 @@ Route::get('/faq','FaqController@index')->name('faq');
 Route::post('/users/verifyPersonalAcessToken','UsersController@verifyPersonalAcessToken');
 Route::get('/ordem_servicos/{id}/change_status/{status}', 'OrdemServicosController@changeStatus')->name('ordem_servicos.change_status');
 
+
+
+Route::get('/ordem_servicos/nao_confirmadas',function(){
+	$nao_confirmadas = auth()->user()->ordemServicos()->where('resolvido_confirmado',null)->where('status',3)->get();
+
+	return response()->json($nao_confirmadas);
+});
+
+
 //ROTAS DE RELATORIOS
 Route::post('/relatorio', 'ReportController@index')->middleware('can:ADMIN');//Rota para gerar relatorio a partir dos parametros
 

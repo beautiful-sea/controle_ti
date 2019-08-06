@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class OrdemServico extends Model
 {
-    protected $fillable = ['equipamento_id','usuario_id','cadastrante_id','setor_id','descricao','resolucao','status','servico_executado','tipo_manutencao'];
+    protected $fillable = ['equipamento_id','usuario_id','cadastrante_id','setor_id','descricao','resolucao','status','servico_executado','tipo_manutencao','resolvido_confirmado'];
 
     protected $table = 'ordem_servicos';
 

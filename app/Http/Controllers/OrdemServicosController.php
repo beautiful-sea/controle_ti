@@ -25,8 +25,10 @@ class OrdemServicosController extends Controller
     {
         $ordem_servicos = (auth()->user()->role == 0)?OrdemServico::orderBy('status','asc')->get():auth()->user()->ordemServicos()->get();
 
+        $resolucao_nao_confirmada = auth()->user()->ordemServicos()->where('resolvido_confirmado',null)->where('status',3)->get();
         return view('ordem_servicos.index',[
-            'ordem_servicos'  =>  $ordem_servicos
+            'ordem_servicos'  =>  $ordem_servicos,
+            'resolucao_nao_confirmada'  =>  $resolucao_nao_confirmada
         ]);
     }
 
