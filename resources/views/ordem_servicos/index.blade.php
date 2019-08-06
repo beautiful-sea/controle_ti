@@ -38,11 +38,11 @@
                     <td>{{ \App\Setor::find($u->setor_id)->name }}</td>
                     <td>{!! 
                         ($u->status != 3)
-                            ?\App\OrdemServico::getStatusFormated($u->status):
-                            
-                            (($u->resolvido_confirmado == 0)
-                                ?'<div class="badge badge-danger">Não Confirmado</div>'
-                                :\App\OrdemServico::getStatusFormated($u->status)) !!}
+                        ?\App\OrdemServico::getStatusFormated($u->status):
+
+                        (($u->resolvido_confirmado == 0)
+                        ?'<div class="badge badge-danger">Não Confirmado</div>'
+                        :\App\OrdemServico::getStatusFormated($u->status)) !!}
 
                     </td>
                     <td>@if($u->img_extension)<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" onclick="setImageModal({!!$u->id!!} , '{!!$u->img_extension!!}')">Ver</button>@endif</td>
@@ -171,88 +171,101 @@
   </div>
   <div class="modal-body">
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>Equipamento:</label>
-                <input type="text" class="form-control" id="equipamento-modal" disabled>
-            </div>
-        </div>
+    <!-- início do preloader -->
+    <div id="preloader">
+        <div class="inner">
+            <!-- HTML DA ANIMAÇÃO -->
+           <div class="bolas">
+              <div></div>
+              <div></div>
+              <div></div>                    
+          </div>
+      </div>
+  </div>
+  <!-- fim do preloader --> 
 
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>OS cadastrada por:</label>
-                <input type="text" class="form-control" id="cadastrante-modal" disabled>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>Usuário do equipamento:</label>
-                <input type="text" class="form-control" id="usuario-modal" disabled>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>Setor do equipamento:</label>
-                <input type="text" class="form-control" id="setor-modal" disabled>
-            </div>
+  <div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Equipamento:</label>
+            <input type="text" class="form-control" id="equipamento-modal" disabled>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>Criado em:</label>
-                <input type="text" class="form-control" id="criado-modal" disabled>
-            </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>OS cadastrada por:</label>
+            <input type="text" class="form-control" id="cadastrante-modal" disabled>
         </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>Resolvido em:</label>
-                <input type="text" class="form-control" id="resolucao-modal" disabled>
-            </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Usuário do equipamento:</label>
+            <input type="text" class="form-control" id="usuario-modal" disabled>
         </div>
-        
     </div>
 
-    <div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Setor do equipamento:</label>
+            <input type="text" class="form-control" id="setor-modal" disabled>
+        </div>
+    </div>
+</div>
 
-
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>Descrição:</label>
-                <textarea disabled name="descricao" id="descricao-modal" rows="5" class="form-control"></textarea>
-            </div>
-        </div> 
-
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>Serviço Executado:</label>
-                <textarea disabled name="servico_executado" id="servico-executado-modal" rows="5" class="form-control"></textarea>
-            </div>
-        </div>   
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Criado em:</label>
+            <input type="text" class="form-control" id="criado-modal" disabled>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Resolvido em:</label>
+            <input type="text" class="form-control" id="resolucao-modal" disabled>
+        </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>Status atual:</label>
-                <div id="status-modal"></div>
-            </div>
-        </div>
+</div>
 
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>Tipo de Manutenção:</label><br>
-                <div  id="tipo_manutencao-modal"></div>
-            </div>
-        </div>
+<div class="row">
 
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Descrição:</label>
+            <textarea disabled name="descricao" id="descricao-modal" rows="5" class="form-control"></textarea>
+        </div>
+    </div> 
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Serviço Executado:</label>
+            <textarea disabled name="servico_executado" id="servico-executado-modal" rows="5" class="form-control"></textarea>
+        </div>
+    </div>   
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Status atual:</label>
+            <div id="status-modal"></div>
+        </div>
     </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Tipo de Manutenção:</label><br>
+            <div  id="tipo_manutencao-modal"></div>
+        </div>
+    </div>
+
+</div>
 
 </div>
 <div class="modal-footer" >
@@ -302,26 +315,36 @@
     function setDetalhes(os_escolhida){
 
         //Busca os dados da OS escolhida e adiciona nos devidos campos
-        $.get("api/ordem_servicos/"+os_escolhida,function(os){
-            moment.locale('pt-BR');
-            $('#equipamento-modal').val(os.equipamento.etiqueta);
-            $('#id-modal').html('#'+os.id);
-            $('#cadastrante-modal').val(os.cadastrante.name);
-            $('#usuario-modal').val(os.usuario.name);
-            $('#setor-modal').val(os.setor.name);
-            $('#descricao-modal').val(os.descricao);
-            $('#servico-executado-modal').val(os.servico_executado);
-            $('#status-modal').html(getStatusInText(os.status));
-            $('#tipo_manutencao-modal').html(getTipoManutencao(os.tipo_manutencao));
-            $('#criado-modal').val(moment(os.created_at).format('DD/MM/Y H:m:ss',true));
-            $('#resolucao-modal').val((os.resolucao)?moment(os.resolucao).format('DD/MM/Y H:m:ss',true):'Não resolvido');
+        $.ajax({
+            url: "api/ordem_servicos/"+os_escolhida,
+            method: "GET",
+            beforeSend: function(){
+                $('#preloader').show(); 
+            },
+            complete: function(){
+                $('#preloader').fadeOut('slow'); 
+            },
+            success:function(os){
+                moment.locale('pt-BR');
+                $('#equipamento-modal').val(os.equipamento.etiqueta);
+                $('#id-modal').html('#'+os.id);
+                $('#cadastrante-modal').val(os.cadastrante.name);
+                $('#usuario-modal').val(os.usuario.name);
+                $('#setor-modal').val(os.setor.name);
+                $('#descricao-modal').val(os.descricao);
+                $('#servico-executado-modal').val(os.servico_executado);
+                $('#status-modal').html(getStatusInText(os.status));
+                $('#tipo_manutencao-modal').html(getTipoManutencao(os.tipo_manutencao));
+                $('#criado-modal').val(moment(os.created_at).format('DD/MM/Y H:m:ss',true));
+                $('#resolucao-modal').val((os.resolucao)?moment(os.resolucao).format('DD/MM/Y H:m:ss',true):'Não resolvido');
 
             //Se a os não foi confirmada como resolvida pelo usuário e seu status for RESOLVIDO
             if(os.resolvido_confirmado != 1 && os.status == 3){
                 //Adiciona o botão de marcar como resolvida a OS
                 $('#footer-detalhes').html('<button type="button" class="btn btn-success" data-dismiss="modal" onclick="confirmarResolucao('+os.id+')">Marcar como resolvido</button>');
             }
-        });
+        }
+    });
     }
 
     //Marca ordem de servico como resolvido
@@ -365,14 +388,14 @@
                     $.get('/ordem_servicos/nao_confirmadas',function(data){//Busca OS's não confirmadas ainda
                         if(data.length > 0){//Se existir OS's não confirmadas
                             visualizarOSParaConfirmar(data);
-                        }else{
-                            swal("Todas ordens de serviço já foram marcadas como resolvidas!")
-                            .then(() =>{
-                                window.location.href = '/ordem_servicos';
-                            });
+                    }else{
+                        swal("Todas ordens de serviço já foram marcadas como resolvidas!")
+                        .then(() =>{
+                            window.location.href = '/ordem_servicos';
+                        });
 
-                        }
-                    });
+                    }
+                });
                 }
             });
 
@@ -484,5 +507,69 @@
       text-align: center;
       color: #61534e;
   }
+
+
+  /* ini: Preloader */
+
+  #preloader {
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background-color:#fff; /* cor do background que vai ocupar o body */
+    z-index:999; /* z-index para jogar para frente e sobrepor tudo */
+}
+#preloader .inner {
+    position: absolute;
+    top: 50%; /* centralizar a parte interna do preload (onde fica a animação)*/
+    left: 50%;
+    transform: translate(-50%, -50%);  
+}
+.bolas > div {
+  display: inline-block;
+  background-color: #449284!important;
+  width: 25px;
+  height: 25px;
+  border-radius: 100%;
+  margin: 3px;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  animation-name: animarBola;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+
+}
+.bolas > div:nth-child(1) {
+    animation-duration:0.75s ;
+    animation-delay: 0;
+}
+.bolas > div:nth-child(2) {
+    animation-duration: 0.75s ;
+    animation-delay: 0.12s;
+}
+.bolas > div:nth-child(3) {
+    animation-duration: 0.75s  ;
+    animation-delay: 0.24s;
+}
+
+@keyframes animarBola {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    opacity: 1;
+}
+16% {
+    -webkit-transform: scale(0.1);
+    transform: scale(0.1);
+    opacity: 0.7;
+}
+33% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    opacity: 1; 
+} 
+}
+/* end: Preloader */
 </style>
 @stop
