@@ -446,11 +446,16 @@
             text: 'Escolha uma OS para visualizar.',
             buttons: opcoes
         }).then((os_escolhida) => {
-            //Quando o usuário clicar no botao referente a OS que quer confirmar
-            $.get("api/ordem_servicos/"+os_escolhida,function(data){//Busca dados da OS
-                setDetalhes(data.id);//Adiciona esses dados no modal de detalhes
-                $('#exampleModal').modal('show');//Exibe o modal
-            })
+            if(os_escolhida){
+               //Quando o usuário clicar no botao referente a OS que quer confirmar
+                $.get("api/ordem_servicos/"+os_escolhida,function(data){//Busca dados da OS
+                    setDetalhes(data.id);//Adiciona esses dados no modal de detalhes
+                    $('#exampleModal').modal('show');//Exibe o modal
+                }) 
+            }else{
+                visualizarOSParaConfirmar(resolucoes_nao_confirmadas);
+            }
+            
 
         });
     }
