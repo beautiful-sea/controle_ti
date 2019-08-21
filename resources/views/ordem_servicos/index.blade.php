@@ -341,7 +341,7 @@
             //Se a os não foi confirmada como resolvida pelo usuário e seu status for RESOLVIDO
             if(os.resolvido_confirmado != 1 && os.status == 3){
                 //Adiciona o botão de marcar como resolvida a OS
-                $('#footer-detalhes').html('<button type="button" class="btn btn-success" data-dismiss="modal" onclick="confirmarResolucao('+os.id+')">Marcar como resolvido</button>');
+                $('#footer-detalhes').html('<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="reabrir('+os.id+')" style="margin-right:10px">Reabrir</button><button type="button" class="btn btn-success" data-dismiss="modal" onclick="confirmarResolucao('+os.id+')">Marcar como resolvido</button>');
             }
         }
     });
@@ -389,7 +389,71 @@
                         if(data.length > 0){//Se existir OS's não confirmadas
                             visualizarOSParaConfirmar(data);
                     }else{
-                        swal("Todas ordens de serviço já foram marcadas como resolvidas!")
+                        swal("Todas ordens de serviço já foram revisadas!")
+                        .then(() =>{
+                            window.location.href = '/ordem_servicos';
+                        });
+
+                    }
+                });
+                }
+            });
+
+        });
+    }
+
+    //Marca OS como não resolvido
+    function reabrir(id_os){
+        dados = Object();
+        dados['_token'] = $('input[name=_token]').val();
+        dados['_method'] = "PUT";
+        dados['status'] = 4;
+
+        //Adiciona o CSRF-TOKEN no header da requisição AJAX
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        //marca como revisada
+        $.ajax({
+            url:'/ordem_servicos/'+id_os,
+            method:'POST',
+            data: dados,
+            dataType: "json"
+        });
+
+        //marca como nao resolvida
+        $.ajax({
+            url:'/ordem_servicos/'+id_os+'/change_status/'+status,
+            method:'POST',
+            data: dados,
+            dataType: "json"
+        }).always(function() {
+            //Mostra mensagem dizendo que a OS foi marcada como resolvida
+            swal("Ordem de serviço marcada como não resolvida.", {
+                icon: "success",
+                buttons : {
+                    catch : {
+                        value: 'confirm',
+                        text: 'Ver mais',
+                        className: 'btn btn-success'
+                    },
+                    cancel :{
+                        tex: 'Sair',
+                        className: 'btn btn-danger'
+                    }
+                }
+                
+            }).then((ver_mais) => {
+                //Se o usuário clicar no botao de ver mais OS para serem marcadas com resolvidas
+                if (ver_mais == 'confirm') {
+                    $.get('/ordem_servicos/nao_confirmadas',function(data){//Busca OS's não confirmadas ainda
+                        if(data.length > 0){//Se existir OS's não confirmadas
+                            visualizarOSParaConfirmar(data);
+                    }else{
+                        swal("Todas ordens de serviço já foram revisadas!")
                         .then(() =>{
                             window.location.href = '/ordem_servicos';
                         });

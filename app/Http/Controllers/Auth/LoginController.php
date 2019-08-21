@@ -44,6 +44,16 @@ class LoginController extends Controller
         return array_add($credentials, 'locked', false);
     }
 
+    /**
+     * Get the login username to be used by the controller.
+     *
+     * @return string
+     */
+    public function username()
+    {
+        return 'usuario';
+    }
+
     public function logout(Request $request)
     {
       Auth::logout();
