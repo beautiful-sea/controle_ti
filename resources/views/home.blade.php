@@ -15,8 +15,6 @@
 
 <div class="row">
 
-
-
 	<div class="col-sm-6 col-md-4">
 		<div class="card card-stats card-primary card-round">
 			<div class="card-body">
@@ -96,12 +94,130 @@
 			</div>
 		</div>
 	</div>
+	
+
+
+	
 	@endcan
 </div>
-<!-- VERIFICA SE EXISTE FOLHA DE PAGAMENTO NA DATA DE HOJE -->
-@php $folhaPagamentoHoje = App\FolhaPagamento::where('periodo',date('Y-m-d'))->where('usuarios_id',auth()->user()->id)->first();  @endphp
+
 
 <div class="container">
+
+	@can('ADMIN',\App\User::class)
+	<!-- ACESSOS -->
+	<h3>Acessos</h3>
+
+	<div class="row row-card-no-pd">
+		<div class="col-sm-6 col-md-3">
+			<div class="card card-stats card-round">
+				<div class="card-body ">
+					<div class="row">
+						<div class="col-5">
+							<div class="icon-big text-center">
+								<i class="flaticon-arrow text-warning"></i>
+							</div>
+						</div>
+						<div class="col col-stats">
+							<div class="numbers">
+								<p class="card-category">Hoje</p>
+								<h4 class="card-title">{{count($acessos['hoje'])}}</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-3">
+			<div class="card card-stats card-round">
+				<div class="card-body ">
+					<div class="row">
+						<div class="col-5">
+							<div class="icon-big text-center">
+								<i class="flaticon-arrow text-success"></i>
+							</div>
+						</div>
+						<div class="col col-stats">
+							<div class="numbers">
+								<p class="card-category">Esse mês</p>
+								<h4 class="card-title">{{count($acessos['mes_atual'])}}</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-3">
+			<div class="card card-stats card-round">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-5">
+							<div class="icon-big text-center">
+								<i class="flaticon-arrow text-danger"></i>
+							</div>
+						</div>
+						<div class="col col-stats">
+							<div class="numbers">
+								<p class="card-category">Esse Ano</p>
+								<h4 class="card-title">{{count($acessos['ano_atual'])}}</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-6 col-md-3" style="margin-top: auto; margin-bottom: auto">
+			<div class="card card-stats card-round">
+				<div class="card-body text-center " >
+					<button class="btn btn-round btn-border btn-primary " data-toggle="modal" data-target="#detalhes_acessos"> Detalhes
+					</button>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- MODAL DETALHES ACESSOS -->
+	<div class="modal fade" id="detalhes_acessos" tabindex="-1" role="dialog" aria-labelledby="detalhes_acessosLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="detalhes_acessosLabel">Histórico de acessos</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="card-list">
+						@foreach($acessos['todos'] as $a)
+
+						<div class="item-list">
+							<div class="avatar">
+								{!!$a->user->avatar!!}
+							</div>
+							<div class="info-user ml-3">
+								<div class="username">{{$a->user->name}} <span class="badge badge-default">{{$a->user->setor->name}}</span> 
+									<div class="status d-inline pull-right">{{date('d/m/Y H:i',strtotime($a->created_at))}}</div>
+								</div>
+								
+							</div>
+						</div>
+						<hr style="margin: 0px">
+						@endforeach
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	@endcan
+
+
+	<!-- VERIFICA SE EXISTE FOLHA DE PAGAMENTO NA DATA DE HOJE -->
+	@php $folhaPagamentoHoje = App\FolhaPagamento::where('periodo',date('Y-m-d'))->where('usuarios_id',auth()->user()->id)->first();  @endphp
+
+	<!-- QUADRO DE AVISOS -->
 	<h3>Quadro de Avisos</h3>
 	<div class="row">
 		<div class="col-md-5 col-lg-6">
@@ -307,6 +423,7 @@
 @section('js')
 
 <script type="text/javascript">
+
 	$('#download_folha_pagamento').click(function(event) {
 		event.preventDefault();
 		$('#exampleModal').modal('show');
@@ -417,6 +534,10 @@ $('#check_access').one('click',function(event) {
 
 
 	$('#personal_access_code').val('');
+
+
+
+
 });
 </script>
 @endsection

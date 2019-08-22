@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Setor;
+use App\Acesso;
+use App\OrdemServico;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -28,11 +30,18 @@ class HomeController extends Controller
     {
         $avisos = DB::table('avisos')->whereRaw('(NOW() BETWEEN data_inicio AND data_fim) AND (setor_id = '.auth()->user()->setor_id.' || setor_id is null)')->get();
 
-        
+        $acessos['hoje'] = DB::select('SELECT * FROM `acessos` WHERE CAST(created_at AS DATE) = date(NOW())');
+
+        $acessos['mes_atual'] = DB::select('SELECT * FROM `acessos` WHERE extract(MONTH from created_at) = MONTH(now())');
+        $acessos['ano_atual'] = DB::select('SELECT * FROM `acessos` WHERE extract(YEAR from created_at) = YEAR(now())');
+
+        $acessos['todos']     = Acesso::paginate(8);
+
         $avisos = $this->buscaESubstituiComandosNoAviso($avisos);
 
         return view('home',[
-            "avisos"    =>  $avisos
+            "avisos"    =>  $avisos,
+            'acessos'  =>  $acessos
         ]);
     }
 

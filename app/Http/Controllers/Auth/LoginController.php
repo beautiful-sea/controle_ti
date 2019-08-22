@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Auth;
+use App\Acesso;
+
 class LoginController extends Controller
 {
     /*
@@ -52,6 +54,22 @@ class LoginController extends Controller
     public function username()
     {
         return 'usuario';
+    }
+
+    /**
+     * The user has been authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        $acesso = new Acesso;
+
+        $acesso->user_id = $user->id;
+
+        $acesso->save();
     }
 
     public function logout(Request $request)
