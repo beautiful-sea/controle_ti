@@ -24,7 +24,15 @@ Route::get('/ordem_servicos/{id}/change_status/{status}', 'OrdemServicosControll
 
 
 Route::get('/ordem_servicos/nao_confirmadas',function(){
-	$nao_confirmadas = auth()->user()->ordemServicos()->where('resolvido_confirmado',null)->where('status',3)->get();
+
+	// Se o usuario for do TI
+	if(auth()->user()->role == 0){
+		$nao_confirmadas = auth()->user()->ordemServicos()->where('resolvido_confirmado',null)->where('para_setor_ti',0)->where('status',3)->get();
+	}elseif(auth()->user()->role == 4){//Se o usuario for da manutencao
+		$nao_confirmadas = auth()->user()->ordemServicos()->where('resolvido_confirmado',null)->where('para_setor_ti',1)->where('status',3)->get();
+	}else{
+		$nao_confirmadas = auth()->user()->ordemServicos()->where('resolvido_confirmado',null)->where('status',3)->get();
+	}
 
 	return response()->json($nao_confirmadas);
 });
@@ -35,7 +43,7 @@ Route::post('/relatorio', 'ReportController@index')->middleware('can:ADMIN');//R
 
 
 //ROTAS GERADAS COM RESOURCES
-Route::resource('equipamentos', 'EquipamentosController')->middleware('can:index');
+Route::resource('equipamentos', 'EquipamentosController')->middleware('can:TI_MANUTENCAO');
 Route::resource('licencas', 'LicencasController')->middleware('can:index');
 Route::resource('produtos', 'ProdutosController')->middleware('can:index');
 Route::resource('setores', 'SetoresController')->middleware('can:index');

@@ -13,7 +13,7 @@
 
 @section('content')
 <div class="my-2">
-    @can('create', \App\User::class)
+    @can('TI_MANUTENCAO', \App\User::class)
     <a href="{{ route('equipamentos.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Novo Equipamento</a>
     @endcan
 </div>
@@ -42,11 +42,11 @@
                     <td>{{ $u->etiqueta }}</td>
                     <td>
                         <div class="table-actions">
-                            @can('edit', $u)
+                            @can('TI_MANUTENCAO', $u)
                             <a href="{{ route('equipamentos.edit', ['equipamento' => $u]) }}" class="btn btn-outline-dark btn-sm"><i class="fa fa-pencil-alt"></i> Editar</a>
                             @endcan
 
-                            @can('destroy', $u)
+                            @can('TI_MANUTENCAO', $u)
                             {{ Html::deleteLink('Excluir', route('equipamentos.destroy', ['user' => $u]), ['button_class' => 'btn btn-outline-danger btn-sm confirmable', 'icon' => 'trash']) }}
                             @endcan
                         </div>

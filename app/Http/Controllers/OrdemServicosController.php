@@ -23,7 +23,15 @@ class OrdemServicosController extends Controller
      */
     public function index()
     {
-        $ordem_servicos = (auth()->user()->role == 0)?OrdemServico::orderBy('status','asc')->get():auth()->user()->ordemServicos()->get();
+        $ordem_servicos  = [];
+
+        if(auth()->user()->role == 0){
+            $ordem_servicos = OrdemServico::where('para_setor_ti',1)->orWhere('usuario_id',auth()->user()->id)->orderBy('status','asc')->get();
+        }elseif(auth()->user()->role == 4){
+            $ordem_servicos = OrdemServico::where('para_setor_ti',0)->orWhere('usuario_id',auth()->user()->id)->orderBy('status','asc')->get();
+        }else{
+             $ordem_servicos = OrdemServico::where('usuario_id',auth()->user()->id)->orderBy('status','asc')->get();
+        }
 
         $resolucao_nao_confirmada = auth()->user()->ordemServicos()->where('resolvido_confirmado',null)->where('status',3)->get();
         return view('ordem_servicos.index',[
@@ -56,6 +64,7 @@ class OrdemServicosController extends Controller
 
         $dados['cadastrante_id'] = auth()->user()->id;
 
+
         $dados['status'] = 0;
 
         $ordem_servico = new OrdemServico;
@@ -76,7 +85,11 @@ class OrdemServicosController extends Controller
         }
 
         /*Notificaçao*/
-        $allAdmins = User::all()->where('role',0);
+        if($ordem_servico->para_setor_ti == 0){
+            $allAdmins = User::all()->where('role',4);
+        }else{
+            $allAdmins = User::all()->where('role',0);
+        }
 
         foreach ($allAdmins as $user) {
             $user->notify(new CreatedOrdemServico($ordem_servico));
@@ -120,9 +133,9 @@ class OrdemServicosController extends Controller
      */
     public function update(Request $request, OrdemServico $ordem_servico)
     {
-        if(auth()->user()->role != 0){//Se quem estiver atualizando a ordem de serviço não for o suporte
-            $request['cadastrante_id'] = auth()->user()->id;
-        }
+        // if(auth()->user()->role != 0 && auth()->user()->role != 4){//Se quem estiver atualizando a ordem de serviço não for o suporte
+        //     $request['cadastrante_id'] = auth()->user()->id;
+        // }
 
         $ordem_servico->fill($request->all());
 

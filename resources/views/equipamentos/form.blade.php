@@ -2,7 +2,7 @@
 
 <div class="card">
     <div class="card-body">
-        {{ Form::bsText('etiqueta', 'Etiqueta') }}
+        {{ Form::bsText('etiqueta', 'Etiqueta/ Nome') }}
     </div>
 </div>
 

@@ -15,6 +15,7 @@ class User extends Authenticatable
     const ROLE_COMMON = 1;
     const ROLE_RH = 2;
     const ROLE_RECEPCAO = 3;
+    const ROLE_MANUTENCAO = 4;
 
     /**
      * The attributes that are mass assignable.
@@ -57,10 +58,11 @@ class User extends Authenticatable
 
     public static function roles() {
         return [
-            self::ROLE_ADMIN => 'Administrador',
-            self::ROLE_COMMON => 'Comum',
-            self::ROLE_RH => 'RH',
-            self::ROLE_RECEPCAO => 'Recepção'
+            self::ROLE_ADMIN    => 'Administrador',
+            self::ROLE_COMMON   => 'Comum',
+            self::ROLE_RH       => 'RH',
+            self::ROLE_RECEPCAO => 'Recepção',
+            self::ROLE_MANUTENCAO    => 'Manutenção'
         ];
     }
 

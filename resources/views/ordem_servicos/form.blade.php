@@ -9,30 +9,17 @@ list($controller, $action) = explode('@', $controllerAction);
 $disabled = ($ordem_servico->status != 0 && auth()->user()->role == 1)? "disabled":"enabled";
 @endphp
 
-<div class="card">
+<div class="card" id="app">
     <div class="card-body">
 
         <div class="row">
             <div class="col-md-6">
-
-                <div class="form-group">
-                    <label>O problema está relacionado a qual equipamento?</label>
-                    <select {{$disabled}} name="equipamento_id" class="form-control select-2">
-                        @if($action == 'create')
-                        @foreach(\App\Equipamento::all() as $e)
-                        <option value="{{$e->id}}" {{($e->id == auth()->user()->equipamento_id)?'selected':''}}>{{$e->etiqueta}}</option>
-                        @endforeach
-                        @else
-                        @foreach(\App\Equipamento::all() as $e)
-                        <option value="{{$e->id}}" {{($e->id == App\User::find($ordem_servico->cadastrante_id)->equipamento_id)?'selected':''}}>{{$e->etiqueta}}</option>
-                        @endforeach
-                        @endif
-                    </select>
-                </div>
+                
+                <setor-os :equipamentos="{{App\Equipamento::all()}}"></setor-os>
 
                 <div class="form-group">
                     <label>O equipamento é de qual setor?</label>
-                    <select {{$disabled}} name="setor_id" class="form-control select-2">
+                    <select {{$disabled}} name="setor_id" class="form-control ">
                         @if($action == 'create')
                         @foreach(\App\Setor::all() as $s)
                         <option value="{{$s->id}}" {{($s->id == auth()->user()->setor_id)?'selected':''}}>{{$s->name}}</option>
@@ -47,7 +34,7 @@ $disabled = ($ordem_servico->status != 0 && auth()->user()->role == 1)? "disable
 
                 <div class="form-group">
                     <label>A qual usuário pertence o equipamento?</label>
-                    <select {{$disabled}} name="usuario_id" class="form-control select-2">
+                    <select {{$disabled}} name="usuario_id" class="form-control ">
                         @if($action == 'create')
                         @foreach(\App\User::all() as $u)
                         <option value="{{$u->id}}" {{($u->id == auth()->user()->id)?'selected':''}}>{{$u->name}}</option>
@@ -65,7 +52,6 @@ $disabled = ($ordem_servico->status != 0 && auth()->user()->role == 1)? "disable
                 <div class="row"  >
                    {{ Form::bsTextarea('descricao', 'Descreva o problema',['rows' => 3 , ($ordem_servico->status != 0 && auth()->user()->role == 1)? 'disabled':"enabled" => true]) }}
                </div>
-
 
                <div class="row" >
                 <div class="form-group">
@@ -102,6 +88,5 @@ $disabled = ($ordem_servico->status != 0 && auth()->user()->role == 1)? "disable
             'descricao': 'required',
         }
     }); 
-
 </script>
 @endsection

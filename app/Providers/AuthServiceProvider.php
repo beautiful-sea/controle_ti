@@ -42,8 +42,16 @@ class AuthServiceProvider extends ServiceProvider
             return $user->role == 1;
         });
 
+        Gate::define('MANUTENCAO',function($user){
+            return $user->role == 4;
+        });
+
+        Gate::define('TI_MANUTENCAO',function($user){
+            return ($user->role == 4 || $user->role == 0);
+        });
+
         Gate::before(function ($user) {
-            if ($user->role == User::ROLE_ADMIN ) {
+            if ($user->role == User::ROLE_ADMIN) {
                 return true;
             }
         });

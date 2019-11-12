@@ -22,7 +22,7 @@ class UserPolicy
     }
 
     public function edit(User $user, User $userToEdit) {
-        // Suas regras aqui
+        return ($user->role == User::ROLE_ADMIN);
     }
 
     public function destroy(User $user, User $userToDestroy) {

@@ -225,7 +225,7 @@
 				<div class="card-body text-center">
 					<div class="card-opening">Bem vindo ao Portal BRVAL</div>
 					<div class="card-desc">
-						<img src="http://brval.com.br/wp-content/uploads/2013/04/logo3-300x123.png" width='200'>
+						<img src="https://brval.com.br/wp-content/uploads/2013/04/logo3-300x123.png" width='200'>
 					</div>
 					<div class="card-detail">
 					</div>

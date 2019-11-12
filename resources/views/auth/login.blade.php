@@ -1,7 +1,7 @@
 @extends('ramodnil.raw')
 
 @section('content')
-<div class="login" style="background-image: url('http://brval.com.br/wp-content/uploads/2018/04/Foto-BR6-Site.jpg')">
+<div class="login" style="background-image: url('https://brval.com.br/wp-content/uploads/2018/04/Foto-BR6-Site.jpg')">
     <div class="wrapper wrapper-login">
 
         <div class="container container-login animated fadeIn">

@@ -99,7 +99,6 @@ $class = 'active show';
 </div>
 </li>
 
-
 <!-- MENU ARMARIOS -->
 @can('RECEPCAO',App\User::class)
 @php
@@ -114,6 +113,26 @@ $class = 'active';
     <a href="{{ route('armarios.index') }}" class="nav-link ">
         <i class="fas fa-th-large"></i>
         <p>Armários</p>
+    </a>
+</li>
+@endcan
+<!-- MENU RAMAIS -->
+
+
+<!-- MENU Equipamentos -->
+@can('TI_MANUTENCAO',App\User::class)
+@php
+$class = '';
+
+if ($controller == 'EquipamentosController') {
+$class = 'active';
+}
+@endphp
+
+<li class="nav-item {{ $class }}">
+    <a href="{{ route('equipamentos.index') }}" class="nav-link ">
+        <i class="fas fa-tools"></i>
+        <p>Equipamentos</p>
     </a>
 </li>
 @endcan
@@ -175,7 +194,7 @@ $class = 'active show';
 @php
 $class = '';
 
-if ($controller == 'EquipamentosController' || $controller == 'LicencasController' || $controller == 'ProdutosController' || $controller == 'SetoresController') {
+if ($controller == 'LicencasController' || $controller == 'ProdutosController' || $controller == 'SetoresController') {
 $class = 'active show';
 }
 @endphp
@@ -189,22 +208,6 @@ $class = 'active show';
         <ul class="nav nav-collapse">
 
 
-            <!-- MENU EQUIPAMENTOS -->
-
-            @php
-            $class = '';
-
-            if ($controller == 'EquipamentosController') {
-            $class = 'active';
-        }
-        @endphp
-
-        <li class="nav-item {{ $class }}">
-            <a href="{{ route('equipamentos.index') }}" class="nav-link ">
-                <i class="fas fa-desktop"></i>
-                <p>Equipamentos</p>
-            </a>
-        </li>
 
         <!-- MENU LICENÇAS-->
 

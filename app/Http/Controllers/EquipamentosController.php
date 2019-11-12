@@ -19,7 +19,10 @@ class EquipamentosController extends Controller
      */
     public function index()
     {
-        $equipamentos = Equipamento::all();
+        $equipamentos = (auth()->user()->role == 0)?
+        Equipamento::where('pertence_ao_ti',1)->get():
+        Equipamento::where('pertence_ao_ti',0)->get();
+
         return view('equipamentos.index',[
             'equipamentos'  =>  $equipamentos
         ]);
@@ -48,6 +51,8 @@ class EquipamentosController extends Controller
         $equipamento = new Equipamento;
 
         $request['etiqueta'] = strtoupper($request->etiqueta);
+        $request['pertence_ao_ti'] = (auth()->user()->role == 0)?1:0;
+
         $equipamento->fill($request->all());
 
         $equipamento->save();
@@ -87,7 +92,9 @@ class EquipamentosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Equipamento $equipamento)
-    {
+    {   
+        $request['pertence_ao_ti'] = (auth()->user()->role == 0)?1:0;
+
         $equipamento->fill($request->all());
 
         $equipamento->save();

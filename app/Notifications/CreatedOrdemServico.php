@@ -57,7 +57,7 @@ class CreatedOrdemServico extends Notification
     {
         return [
             'ordemServico'   =>$this->ordem_servico_id,
-            'createdBy'     =>auth()->user(),
+            'createdBy'      =>auth()->user(),
         ];
     }
 }

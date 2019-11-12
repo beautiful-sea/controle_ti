@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Equipamento extends Model
 {
     protected $fillable = [
-        'etiqueta'
+        'etiqueta','pertence_ao_ti'
     ];
 }
